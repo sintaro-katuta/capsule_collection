@@ -1,0 +1,15 @@
+version: '3'
+
+services:
+  front:
+    build: ./front
+    container_name: front
+    tty: true
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./front:/app
+    working_dir: /app/capsule-collection
+    environment:
+      - WATCHPACK_POLLING=true
+    command: sh -c "bun run dev"
