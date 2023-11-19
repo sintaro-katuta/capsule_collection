@@ -6,7 +6,7 @@ services:
     container_name: front
     tty: true
     ports:
-      - "3000:3000"
+      - "3001:3001"
     volumes:
       - ./front:/app
     working_dir: /app/capsule-collection

@@ -1,14 +1,44 @@
-import Header from "./components/header"
+'use client'
 
-export default function Home() {
+import Header from "@/components/header"
+import Menu from "@/components/menu"
+import Home from "@/components/home"
+import { useState } from "react"
+
+export default function App() {
+  const [activeItem, setActiveItem] = useState("home")
+  const capsule = [
+    { 'name': 'ちぃかわ', 'image': '/chii.svg' },
+    { 'name': 'ちぃかわ', 'image': '/chii.svg' },
+    { 'name': 'ちぃかわ', 'image': '/chii.svg' },
+    { 'name': 'ちぃかわ', 'image': '/chii.svg' },
+    { 'name': 'ちぃかわ', 'image': '/chii.svg' },
+    { 'name': 'ちぃかわ', 'image': '/chii.svg' },
+    { 'name': 'ちぃかわ', 'image': '/chii.svg' },
+    { 'name': 'ちぃかわ', 'image': '/chii.svg' },
+    { 'name': 'ちぃかわ', 'image': '/chii.svg' },
+    { 'name': 'ちぃかわ', 'image': '/chii.svg' },
+    { 'name': 'ちぃかわ', 'image': '/chii.svg' },
+    { 'name': 'ちぃかわ', 'image': '/chii.svg' },
+    { 'name': 'ちぃかわ', 'image': '/chii.svg' },
+    { 'name': 'ちぃかわ', 'image': '/chii.svg' },
+    { 'name': 'ちぃかわ', 'image': '/chii.svg' },
+    { 'name': 'ちぃかわ', 'image': '/chii.svg' },
+    { 'name': 'ちぃかわ', 'image': '/chii.svg' },
+    { 'name': 'ちぃかわ', 'image': '/chii.svg' },
+  ]
+
   return (
-    <div className="container h-screen flex-col justify-end mx-x-origin">
+    <div className="w-screen h-screen flex-col justify-end px-7">
       <Header />
-      <div className="flex justify-center items-end bg-background">
-        <p>1111</p>
-        <p>2222</p>
-        <p>3333</p>
-      </div>
+      {activeItem === "home"
+        ?
+        <Home capsule={capsule} />
+        :
+        null}
+      {activeItem === "profile" ? <div className="h-body"></div> : null}
+      {activeItem === "search" ? <div className="h-body"></div> : null}
+      <Menu activeItem={activeItem} setActiveItem={setActiveItem} />
     </div>
   )
 }

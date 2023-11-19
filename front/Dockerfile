@@ -12,4 +12,4 @@ RUN npm install next-pwa
 
 RUN npm install && npm upgrade
 
-EXPOSE 3000
+EXPOSE 3001
