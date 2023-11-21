@@ -2,7 +2,7 @@ import Image from "next/image"
 
 export default function Menu(props: any) {
     return (
-        <div className="flex justify-between items-center gap-2 h-14 mb-3">
+        <div className="flex justify-between items-center gap-2 h-14">
             <div className="flex flex-col items-center justify-center w-1/3">
                 {props.activeItem === "profile"
                     ? <Image src="/profile_active.svg" width={40} height={40} alt="profile" onClick={() => props.setActiveItem('profile')} className="cursor-pointer" />

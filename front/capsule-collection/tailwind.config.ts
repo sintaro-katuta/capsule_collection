@@ -20,6 +20,7 @@ const config: Config = {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
         'gradient-conic':
           'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
+        'profile-edit': "url('/edit_hover.svg')",
       },
       backgroundColor: {
         'background': '#f2f7f5',
@@ -34,9 +35,12 @@ const config: Config = {
       margin: {
         'x-origin': '120px'
       },
+      top: {
+        '1/6': '30%'
+      },
       height: {
-        'body': 'calc(100vh - 140px)'
-      }
+        'body': 'calc(100vh - 145px)'
+      },
     },
   },
   plugins: [],
