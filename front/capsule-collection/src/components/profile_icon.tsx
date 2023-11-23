@@ -4,7 +4,7 @@ export default function ProfileIcon() {
     return (
         <div className="flex justify-center items-center h-1/3 mb-5">
             <div className="flex flex-col justify-center items-center gap-3">
-                <div className="w-48 h-48 border-2 border-black rounded-full p-2">
+                <div className="w-36 h-36 border-2 border-black rounded-full p-2">
                     <label>
                         <input className="hidden" type="file" />
                         <Image src="/chii.svg" width={200} height={200} alt="Icon" />
