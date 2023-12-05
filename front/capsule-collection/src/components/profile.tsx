@@ -6,6 +6,11 @@ import { getAuth, signOut } from "firebase/auth";
 
 export default function Profile(props: any) {
     const auth = getAuth()
+    const user = auth.currentUser
+    let name: any = ""
+    if(user !== null){
+        name = user.displayName
+    }
 
     const logout = () => {
         signOut(auth)
@@ -30,7 +35,7 @@ export default function Profile(props: any) {
                     </div>
                 </div>
             </div>
-            <ProfileIcon />
+            <ProfileIcon name={name} />
             <Mystamp capsule={props.capsule} />
         </>
     )

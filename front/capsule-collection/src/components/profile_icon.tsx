@@ -1,7 +1,7 @@
 import Image from 'next/image'
 import Link from 'next/link';
 
-export default function ProfileIcon() {
+export default function ProfileIcon(props: any) {
     return (
         <div className="flex justify-center items-center h-1/4">
             <div className="h-full flex flex-col justify-center items-center">
@@ -12,7 +12,7 @@ export default function ProfileIcon() {
                     </label>
                 </div>
                 <div className="flex">
-                    <p className="text-base">ちぃかわ</p>
+                    <p className="text-base">{props.name}</p>
                     <Image src="/edit.svg" width={20} height={20} alt="Edit" />
                 </div>
             </div>

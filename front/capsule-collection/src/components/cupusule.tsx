@@ -1,7 +1,6 @@
 import Image from "next/image"
 
 export default function Cupusule(props: any) {
-    console.log(props.capsule)
     return (
         <div className="h-40 bg-headline rounded-2xl">
             <div className="flex items-center pt-3">
