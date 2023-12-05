@@ -3,7 +3,7 @@ import Image from "next/image"
 export default function Cupusule(props: any) {
     console.log(props.capsule)
     return (
-        <div className="h-40 mb-10 bg-headline rounded-2xl">
+        <div className="h-40 bg-headline rounded-2xl">
             <div className="flex items-center pt-3">
                 <div className="relative w-10 h-10 mx-3 border border-black rounded-full bg-background flex-none">
                     <Image src={props.capsule[0].image} layout="fill" objectFit="contain" alt="Icon" className="object-contain rounded-full" />

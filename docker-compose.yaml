@@ -10,6 +10,7 @@ services:
     volumes:
       - ./front:/app
     working_dir: /app/capsule-collection
+    env_file: ./front/.env
     environment:
       - WATCHPACK_POLLING=true
     command: sh -c "bun run dev"

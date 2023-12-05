@@ -1,17 +1,18 @@
 import Image from 'next/image'
+import Link from 'next/link';
 
 export default function ProfileIcon() {
     return (
-        <div className="flex justify-center items-center h-1/3 mb-5">
-            <div className="flex flex-col justify-center items-center gap-3">
-                <div className="w-36 h-36 border-2 border-black rounded-full p-2">
+        <div className="flex justify-center items-center h-1/4">
+            <div className="h-full flex flex-col justify-center items-center">
+                <div className="w-28 h-28 border-2 border-black rounded-full p-2">
                     <label>
                         <input className="hidden" type="file" />
-                        <Image src="/chii.svg" width={200} height={200} alt="Icon" />
+                        <Image src="/chii.svg" width={150} height={150} alt="Icon" />
                     </label>
                 </div>
                 <div className="flex">
-                    <p className="text-lg">ちぃかわ</p>
+                    <p className="text-base">ちぃかわ</p>
                     <Image src="/edit.svg" width={20} height={20} alt="Edit" />
                 </div>
             </div>
