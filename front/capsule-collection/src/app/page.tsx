@@ -12,7 +12,7 @@ import Login from "@/components/login"
 // Firebase関連
 import { initializeFirebaseApp, db } from "@/firebase/client"
 import { getAuth, getRedirectResult } from "firebase/auth";
-import { collection, getDocs, } from "firebase/firestore"
+import { collection, getDocs, doc, getDoc } from "firebase/firestore"
 
 // デバイス関連
 import MobileDetect from "mobile-detect"
@@ -30,15 +30,16 @@ export default function App() {
   initializeFirebaseApp()
   const auth = getAuth()
 
-  const recentCapsule = async () => {
+  const getRecentCapsule = async () => {
     const capusules: any = await getDocs(collection(db, "capsules"))
     let newCapsule: any = []
 
     capusules.forEach((element: any) => {
-      newCapsule.push(element.data())
-      console.log(element.data())
+      newCapsule.push(element.data().capsule)
     })
     console.log(newCapsule)
+    const category = getDoc(newCapsule[0].category)
+    console.log((await category).data())
     setCapsule(newCapsule)
   }
 
@@ -50,7 +51,7 @@ export default function App() {
       if (user) {
         setCurrentUser(user)
         setActiveItem("home")
-        recentCapsule()
+        getRecentCapsule()
       } else {
         setActiveItem("login")
       }
