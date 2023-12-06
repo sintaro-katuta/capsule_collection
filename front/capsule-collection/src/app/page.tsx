@@ -10,8 +10,9 @@ import AccessDenied from "@/components/access_denied"
 import Login from "@/components/login"
 
 // Firebase関連
-import { initializeFirebaseApp } from "@/firebase/client"
+import { initializeFirebaseApp, db } from "@/firebase/client"
 import { getAuth, getRedirectResult } from "firebase/auth";
+import { collection, getDocs, } from "firebase/firestore"
 
 // デバイス関連
 import MobileDetect from "mobile-detect"
@@ -23,12 +24,23 @@ export default function App() {
 
   const [currentUser, setCurrentUser] = useState([])
   const [activeItem, setActiveItem] = useState("")
-  const md = new MobileDetect(window.navigator.userAgent);
+  const [capsule, setCapsule]: any = useState([])
+  const md = new MobileDetect(navigator.userAgent);
 
   initializeFirebaseApp()
   const auth = getAuth()
 
-  console.log(activeItem)
+  const recentCapsule = async () => {
+    const capusules: any = await getDocs(collection(db, "capsules"))
+    let newCapsule: any = []
+
+    capusules.forEach((element: any) => {
+      newCapsule.push(element.data())
+      console.log(element.data())
+    })
+    console.log(newCapsule)
+    setCapsule(newCapsule)
+  }
 
   useEffect(() => {
     if (!md.mobile() || !md.tablet()) {
@@ -38,27 +50,29 @@ export default function App() {
       if (user) {
         setCurrentUser(user)
         setActiveItem("home")
-      }else{
+        recentCapsule()
+      } else {
         setActiveItem("login")
       }
       getRedirectResult(getAuth())
     })
+
     return () => {
       // onAuthStateChangedはfirebase.Unsubscribeを返すので、ComponentがUnmountされるタイミングでUnsubscribe(登録解除)しておく
       unsubscribed()
     }
   }, [auth])
 
-  const capsule = [
-    { 'name': 'ちぃかわ', 'image': '/chii.jpg' },
-    { 'name': 'ちぃかわ', 'image': '/chii.svg' },
-    { 'name': 'ちぃかわ', 'image': '/chii.jpg' },
-    { 'name': 'ちぃかわ', 'image': '/chii.jpg' },
-    { 'name': 'ちぃかわ', 'image': '/chii.jpg' },
-    { 'name': 'ちぃかわ', 'image': '/chii.svg' },
-    { 'name': 'ちぃかわ', 'image': '/chii.jpg' },
-    { 'name': 'ちぃかわ', 'image': '/chii.jpg' },
-  ]
+  // const capsule = [
+  //   { 'name': 'ちぃかわ', 'image': '/chii.jpg' },
+  //   { 'name': 'ちぃかわ', 'image': '/chii.svg' },
+  //   { 'name': 'ちぃかわ', 'image': '/chii.jpg' },
+  //   { 'name': 'ちぃかわ', 'image': '/chii.jpg' },
+  //   { 'name': 'ちぃかわ', 'image': '/chii.jpg' },
+  //   { 'name': 'ちぃかわ', 'image': '/chii.svg' },
+  //   { 'name': 'ちぃかわ', 'image': '/chii.jpg' },
+  //   { 'name': 'ちぃかわ', 'image': '/chii.jpg' },
+  // ]
 
   return (
     <div className="w-screen h-screen flex-col justify-end px-7">
