@@ -1,6 +1,11 @@
+// 最近の取得したカプセルを表示するコンポーネント
+// Next関連
 import Image from "next/image"
 
-export default function RecentCapsule(props: any) {
+type Props = {
+    capsule: any[]
+}
+export default function RecentCapsule(props: Props) {
     return (
         <div className="h-1/4">
             <p className="mb-3">最近のカプセル</p>

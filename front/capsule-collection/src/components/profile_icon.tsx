@@ -1,7 +1,12 @@
+// ユーザのアイコンを表示するコンポーネント
+// Next関連
 import Image from 'next/image'
-import Link from 'next/link';
 
-export default function ProfileIcon(props: any) {
+type Props = {
+    name: string
+}
+
+export default function ProfileIcon(props: Props) {
     return (
         <div className="flex justify-center items-center h-1/4">
             <div className="h-full flex flex-col justify-center items-center">

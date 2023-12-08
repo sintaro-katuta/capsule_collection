@@ -3,8 +3,13 @@ import Stamp from "./stamp"
 import Add_Input from "./add_input"
 import { useState } from "react"
 
-export default function Home(props: any) {
-    const [page, setPage] = useState(false)
+type Props = {
+    capsule: any[]
+}
+
+export default function Home(props: Props) {
+    // カプセルを登録する画面の状態
+    const [page, setPage] = useState<any>(false)
     return (
         <>
             {page

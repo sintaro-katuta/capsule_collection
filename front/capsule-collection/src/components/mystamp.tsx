@@ -1,11 +1,18 @@
+// ユーザの持っているカプセルを表示するコンポーネント
+// Next関連
 import Image from 'next/image'
 
-export default function Mystamp(props: any) {
+type Props = {
+    capsule: any[]
+}
+
+export default function Mystamp(props: Props) {
     return (
         <div className="w-full h-3/4 flex flex-col justify-center">
             <div className="flex flex-row justify-end items-end mb-3">
                 <div className="basis-1/3" />
                 <p className="basis-1/3 text-center text-sm">マイスタンプ</p>
+                {/* カプセル全体から取得してるカプセル */}
                 <p className="basis-1/3 text-center text-sm">65/132</p>
             </div>
             <div className="flex w-full h-4/5 justify-center items-center rounded-2xl bg-headline">

@@ -1,6 +1,13 @@
+// 画面下のメニューのコンポーネント
+// Next関数
 import Image from "next/image"
 
-export default function Menu(props: any) {
+type Props = {
+    activeItem: string
+    setActiveItem: (any)
+}
+
+export default function Menu(props: Props) {
     return (
         <div>
             {props.activeItem == "login"

@@ -1,3 +1,4 @@
+// PC以外でアクセスされたときのコンポーネント
 export default function AccessDenied() {
     return (
         <div className="h-full flex justify-center items-center">

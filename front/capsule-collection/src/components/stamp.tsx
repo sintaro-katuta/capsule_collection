@@ -1,7 +1,13 @@
+// 取得したスタンプを表示するコンポーネント
+// Next関連
 import Image from "next/image";
-import { useEffect } from "react";
 
-export default function Stamp(props: any) {
+type Props = {
+    capsule: any[]
+    setPage: any
+}
+
+export default function Stamp(props: Props) {
     return (
         <div className="h-3/5">
             <p className="my-3">スタンプ</p>
