@@ -2,9 +2,8 @@
 // React関連
 import { useState } from "react"
 // Firebase関連
-import { firebase, initializeFirebaseApp } from "@/firebase/client"
+import { firebase, initializeFirebaseApp, db } from "../firebase/client"
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile } from "firebase/auth";
-import { db } from "@/firebase/client";
 import { collection, setDoc, doc } from "firebase/firestore";
 
 type Props = {

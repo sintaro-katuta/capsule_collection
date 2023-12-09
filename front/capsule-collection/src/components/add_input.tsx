@@ -1,14 +1,14 @@
 // カプセルを登録するコンポーネント
 // コンポーネント関連
-import Cupusule from "./cupusule"
+import Cupusule from "./capsule"
 // React関連
 import { useState, useEffect } from "react"
 // Firebase関連
-import { db } from "@/firebase/client"
+import { db } from "../firebase/client"
 import { getDocs, collection } from "firebase/firestore"
 
 type Props = {
-    capsule: any
+    capsule: any[]
 }
 
 export default function Add_Input(props: Props) {

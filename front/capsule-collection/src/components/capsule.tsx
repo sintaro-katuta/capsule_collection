@@ -6,7 +6,7 @@ type Props = {
     capsule: any[]
 }
 
-export default function Cupusule(props: Props) {
+export default function Capsule(props: Props) {
     return (
         <div className="h-40 bg-headline rounded-2xl">
             <div className="flex items-center pt-3">
