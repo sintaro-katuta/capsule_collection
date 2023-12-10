@@ -6,12 +6,16 @@ import Mystamp from "./mystamp"
 import { useEffect, useState } from "react"
 // Firebase関連
 import { getAuth, signOut } from "firebase/auth";
+import { captureRejectionSymbol } from "events";
+import { set } from "firebase/database";
 
 export default function Profile(props: any) {
     // ログイン情報を取得
     const auth: any = getAuth()
     // ユーザの名前の状態
     const [name, setName] = useState<string>("")
+    // ユーザのアイコンを表示するコンポーネント
+    const [profile_icon, setProfile_icon] = useState<string>("")
     // ログインしているユーザの情報
     const [is_logout, setIs_logout] = useState<boolean>(false)
     // ログアウトするための関数
@@ -25,12 +29,13 @@ export default function Profile(props: any) {
     useEffect(() => {
         const user: any = auth.currentUser
         setName(user.displayName)
+        setProfile_icon(user.photoURL)
     }, [auth])
 
     return (
         <>
             <div className="absolute top-4 -right-0 px-7">
-                <p className="text-sm text-white bg-red-500 text-center font-semibold rounded-lg tracking-wide p-1" onClick={() => setIs_logout(true)}>ログアウト</p>
+                <p className="text-sm text-white bg-red-500 text-center font-semibold rounded-lg tracking-wide p-1 cursor-pointer" onClick={() => setIs_logout(true)}>ログアウト</p>
             </div>
             {/* ログインが押された時に表示されるモーダル */}
             {is_logout &&
@@ -50,7 +55,7 @@ export default function Profile(props: any) {
                 </div>
             }
             {/* ユーザのアイコンを表示するコンポーネント */}
-            <ProfileIcon name={name} />
+            <ProfileIcon name={name} setName={setName} icon={profile_icon} />
             {/* ユーザの持っているカプセルを表示するコンポーネント */}
             <Mystamp capsule={props.capsule} />
         </>

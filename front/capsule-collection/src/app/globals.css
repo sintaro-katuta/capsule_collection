@@ -24,3 +24,28 @@ body{
 .hide-scroll-bar::-webkit-scrollbar {
   display: none;
 }
+
+/* https://www.animotion.dev */
+
+.spin-left {
+  transform-origin: 50% 50%;
+  animation: spin-left-animation 1.5s linear 0s infinite normal both running;
+}
+
+@keyframes spin-left-animation {
+  0% {
+      transform: translate(-112px, 0px) rotate(0deg);
+  }
+
+  75% {
+      transform: translate(-112px, 0px) rotate(360deg);
+  }
+
+  90% {
+      transform: translate(0px, 0px) rotate(360deg);
+  }
+
+  100% {
+      transform: rotate(-360deg);
+  }
+}

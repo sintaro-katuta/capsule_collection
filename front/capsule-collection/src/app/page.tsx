@@ -8,6 +8,7 @@ import Profile from "@/components/profile"
 import Search from "@/components/search"
 import AccessDenied from "@/components/access_denied"
 import Login from "@/components/login"
+import Loading from "@/components/loading"
 
 // Firebase関連
 import { initializeFirebaseApp, db } from "@/firebase/client"
@@ -25,6 +26,7 @@ export default function App() {
   const [currentUser, setCurrentUser] = useState<any[]>([])
   // 画面の状態 home: ホーム profile: プロフィール search: 検索 login: ログイン access_denied: pc以外の時の画面
   const [activeItem, setActiveItem] = useState<string>("")
+  const [loading, setLoading] = useState<boolean>(true)
   // カプセルの状態
   const [capsule, setCapsule]: any = useState<any[]>([])
   // モバイルかタブレットか取得
@@ -69,9 +71,12 @@ export default function App() {
         setActiveItem("home")
         // 最近のカプセルを取得
         getRecentCapsule(user.uid)
+        // ローディングを非表示
+        setLoading(false)
       } else {
         // ログインしていないユーザなのでログイン画面
         setActiveItem("login")
+        setLoading(false)
       }
       getRedirectResult(getAuth())
     })
@@ -83,20 +88,23 @@ export default function App() {
   }, [auth])
 
   return (
-    <div className="w-screen h-screen flex-col justify-end px-7">
+    <div className="w-screen h-screen fixed">
       <Header />
-      <div className="h-body">
-        {/* 画面の状態 */}
-        {activeItem === "home" && <Home capsule={capsule} />}
-        {activeItem === "profile" && <Profile capsule={capsule} setActiveItem={setActiveItem} />}
-        {activeItem === "search" && <Search capsule={capsule} />}
-        {activeItem === "login" && <Login setActiveItem={setActiveItem} />}
-        {activeItem === "access_denied" && <AccessDenied />}
+      <div className="w-full h-full px-7">
+        <div className="h-body">
+          <Loading loading={loading} />
+            {/* 画面の状態 */}
+            {activeItem === "home" && <Home capsule={capsule} />}
+            {activeItem === "profile" && <Profile capsule={capsule} setActiveItem={setActiveItem} />}
+            {activeItem === "search" && <Search capsule={capsule} />}
+            {activeItem === "login" && <Login setActiveItem={setActiveItem} />}
+            {activeItem === "access_denied" && <AccessDenied />}
+          {activeItem !== "access_denied" &&
+            // 画面下のメニュー
+            <Menu activeItem={activeItem} setActiveItem={setActiveItem} />
+          }
+        </div>
       </div>
-      {activeItem !== "access_denied" &&
-        // 画面下のメニュー
-        <Menu activeItem={activeItem} setActiveItem={setActiveItem} />
-      }
     </div>
   )
 }

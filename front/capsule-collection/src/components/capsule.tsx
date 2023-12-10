@@ -3,27 +3,27 @@
 import Image from "next/image"
 
 type Props = {
-    capsule: any[]
+    capsule: any
 }
 
 export default function Capsule(props: Props) {
     return (
-        <div className="h-40 bg-headline rounded-2xl">
-            <div className="flex items-center pt-3">
-                <div className="relative w-10 h-10 mx-3 border border-black rounded-full bg-background flex-none">
-                    {/* カプセルのアイコン */}
-                    <Image src={props.capsule[0].image} layout="fill" objectFit="contain" alt="" className="object-contain rounded-full" />
-                </div>
-                {/* カテゴリの名前 */}
-                <p className="text-background">ちぃかわ</p>
-            </div>
-            <div className="flex justify-center items-center w-full h-3/5 px-4 overflow-x-auto hide-scroll-bar">
-                {props.capsule.map((cp: any, i: number) => (
-                    // 横並びにすべてのカプセルを表示
-                    <div className="relative w-16 h-16 mx-2 border-2 border-black rounded-full bg-background flex-none hide-scroll-bar" key={i}>
-                        <Image src={cp.image} layout="fill" objectFit="contain" alt="" className="object-contain rounded-full p-1" />
+        <div className="w-full bg-headline rounded-2xl">
+            <div className="flex justify-between items-center">
+                <div className="flex justify-start items-center gap-2">
+                    <div className="relative w-10 h-10 border-2 border-black rounded-full bg-background flex-none">
+                        <Image src={props.capsule.image} layout="fill" objectFit="contain" alt="Icon" className="object-contain rounded-full" />
                     </div>
-                ))}
+                    <p className="text-sm">{props.capsule.name}</p>
+                </div>
+            </div>
+            <div className="flex justify-center items-center">
+                <div className="relative w-40 h-40 border-2 border-black rounded-full bg-background flex-none">
+                    <Image src={props.capsule.image} layout="fill" objectFit="contain" alt="Icon" className="object-contain rounded-full" />
+                </div>
+            </div>
+            <div className="flex justify-center items-center">
+                <p className="text-sm">{props.capsule.name}</p>
             </div>
         </div>
     )
