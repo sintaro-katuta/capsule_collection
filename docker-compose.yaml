@@ -13,4 +13,4 @@ services:
     env_file: ./front/.env
     environment:
       - WATCHPACK_POLLING=true
-    command: sh -c "bun run dev"
+    command: sh -c "npm run dev"
