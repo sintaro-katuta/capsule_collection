@@ -1,26 +1,31 @@
 import RecentCapsule from "./recent_capsule"
 import Stamp from "./stamp"
 import Add_Input from "./add_input"
-import { useState } from "react"
+import { useEffect, useState } from "react"
+import Loading from "./loading"
 
 type Props = {
-    capsule: any[]
+    setActiveItem: (any)
 }
 
 export default function Home(props: Props) {
-    // カプセルを登録する画面の状態
-    const [page, setPage] = useState<any>(false)
+    const [loading, setLoading] = useState<boolean>(true)
+    const [capsule, setCapsule]: any = useState<any>([])
+
+    useEffect(() => {
+        setLoading(false)
+    },[])
+
     return (
         <>
-            {page
-                ?
+            {console.log(loading)}
+            {loading
+            ?
+                <Loading />
+            :
                 <>
-                    <Add_Input capsule={props.capsule} />
-                </>
-                :
-                <>
-                    <RecentCapsule capsule={props.capsule} />
-                    <Stamp capsule={props.capsule} setPage={setPage} />
+                    <RecentCapsule capsule={capsule} />
+                    <Stamp capsule={capsule} setActiveItem={props.setActiveItem} />
                 </>
             }
         </>

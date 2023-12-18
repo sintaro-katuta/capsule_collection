@@ -4,7 +4,7 @@ import Image from "next/image";
 
 type Props = {
     capsule: any[]
-    setPage: any
+    setActiveItem: (any)
 }
 
 export default function Stamp(props: Props) {
@@ -14,7 +14,7 @@ export default function Stamp(props: Props) {
                 <p>スタンプ</p>
                 <div className="w-full h-4/5 bg-headline rounded-2xl grid grid-cols-3 grid-rows-3 place-items-center overflow-y-auto hide-scroll-bar">
                     <div className="relative w-20 h-20 border-2 border-black rounded-full bg-background flex-none">
-                        <Image src="/add.svg" layout="fill" objectFit="contain" alt="Icon" className="object-contain rounded-full" onClick={() => props.setPage(true)} />
+                        <Image src="/add.svg" layout="fill" objectFit="contain" alt="Icon" className="object-contain rounded-full" onClick={() => props.setActiveItem("add_input")} />
                     </div>
                     {props.capsule.map((cp: any, i: number) => (
                         <div key={i} className="relative w-20 h-20 border-2 border-black rounded-full bg-background flex-none">

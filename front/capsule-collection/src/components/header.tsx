@@ -4,7 +4,7 @@ import Image from "next/image"
 
 export default function Header() {
     return (
-        <div className="flex w-full h-16 justify-center items-center">
+        <div className="flex w-full h-1/12 justify-center items-center">
             <Image
                 src="/title.svg"
                 alt=""

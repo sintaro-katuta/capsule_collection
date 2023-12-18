@@ -8,7 +8,7 @@ type Props = {
 
 export default function Mystamp(props: Props) {
     return (
-        <div className="h-4/6 border border-black rounded-lg flex flex-col items-start justify-start gap-5 overflow-y-auto">
+        <div className="h-1/2 border border-black rounded-lg flex flex-col items-start justify-start gap-5 overflow-y-auto">
             {props.capsule.map((cp: any, i: number) => (
                 <>
                     <Capsule key={i} capsule={cp} />

@@ -16,6 +16,6 @@ module.exports = withPWA({
     reactStrictMode: true,
     images: {
         dangerouslyAllowSVG: true,
-        domains: ['firebasestorage.googleapis.com'],
+        domains: ['firebasestorage.googleapis.com','zwcrhekpnetxinygmzbf.supabase.co'],
     },
 })

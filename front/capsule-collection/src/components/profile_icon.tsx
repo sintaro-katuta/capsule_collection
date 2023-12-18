@@ -1,93 +1,138 @@
 // ユーザのアイコンを表示するコンポーネント
 // React関連
-import { useState } from 'react'
+import React, { useState } from 'react'
 // Next関連
 import Image from 'next/image'
 // Firebase関連
 import { getAuth, updateProfile } from "firebase/auth";
+
+// Supabase関連
+import { supabase } from "@/supabase/client"
 import { set } from 'firebase/database';
 
 type Props = {
+    uid: string
     name: string
     icon: string
-    setName: (any)
 }
 
 export default function ProfileIcon(props: Props) {
-    const auth: any = getAuth()
-    const [edit, setEdit] = useState<boolean>(false)
+    const auth: any = supabase.auth
+    const [edit_name, setEdit_name] = useState<boolean>(false)
     const [edit_icon, setEdit_icon] = useState<boolean>(false)
+    const [file, setFile] = useState<any>({})
+    const [error, setError] = useState<string>('')
     const [name, setName] = useState<string>('')
-    const [icon, setIcon] = useState<string>('')
 
     // ユーザの名前を変更する関数
-    const changeName = () => {
-        updateProfile(auth.currentUser, {
-            displayName: name
+    const changeName = async (e: React.FormEvent) => {
+        e.preventDefault()
+        auth.updateUser({
+            data: {
+                name: name
+            }
         })
-        setEdit(false)
+        const res = await fetch('/api/user/update/name', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                id: props.uid,
+                username: name
+            }),
+        })
+        console.log(res)
+
+        setEdit_name(false)
         setName(name)
     }
 
     // ユーザーのアイコンを変更する関数
-    const changeIcon = () => {
-        updateProfile(auth.currentUser, {
-            photoURL: icon
+    const changeIcon = async (e: React.FormEvent) => {
+        e.preventDefault()
+        const { data, error } = await supabase.storage
+        .from('user_icon')
+        .upload(`${props.uid}/${file.name}`, file.file, {
+            upsert: true,
         })
-        setEdit_icon(false)
+        if(error){
+            console.log(error)
+        }
+        auth.updateUser({
+            data: {
+                photoURL: file.fileName
+            }
+        })
     }
 
     const selectIcon = (e: any) => {
+        setError('')
+        const maxSize = 10485760; // 1MB
+        const IMAGE_TYPES = ['image/png', 'image/jpeg', 'image/svg']
         const file = e.target.files[0]; // ファイル本体
-
         // エラー回避
         if(!file) {
-          return;
+            setError('ファイルが選択されていません')
+            return
         }
-        const reader = new FileReader();
-        reader.onload = (e) => {
-            setIcon(e.target?.result as string)
-            setEdit_icon(true)
-        };
-        reader.readAsDataURL(file); // 画像をData URIとして読み込む
+        if(file.size > maxSize){
+            setError('ファイルサイズが大きすぎます')
+            return
+        }else if(!IMAGE_TYPES.includes(file.type)){
+            setError('対応していないファイル形式です')
+            return
+        }
+        // URL生成
+        const imageUrl = URL.createObjectURL(file)
+        const fileData = {
+            file: file,
+            fileName: file.name,
+            url: imageUrl
+        }
+        setFile(fileData)
+        setEdit_icon(true)
     }
     return (
-        <div className="flex justify-center items-center h-2/6">
+        <div className="flex justify-center items-center h-1/2">
             <div className="w-full h-full flex flex-col justify-center items-center">
+                <p className='text-red-500 text-sm'>{ error }</p>
                 {edit_icon
                 ?
-                <div className="w-full h-2/3 flex items-center justify-center">
+                // 画像選択後の表示
+                <div className="w-full h-1/2 flex items-center justify-center">
                     <div className='w-20 h-full' />
                     <label>
-                        <input className="hidden" type="file" onChange={(e) => selectIcon(e)} />
-                        <Image src={icon} width={100} height={100} alt="Icon" className='p-1 w-28 h-28 rounded-full' />
+                        <input className="hidden" type="file" accept='image/*' />
+                        <Image src={file.url} width={100} height={100} alt="Icon" className='p-1 w-28 h-28 rounded-full' />
                     </label>
                     <div className='flex flex-col items-center justify-center gap-3'>
                         <button className='w-20 bg-gray-300 rounded-xl text-white' onClick={() => setEdit_icon(false)}>キャンセル</button>
-                        <button className='w-20 bg-button rounded-xl text-white' onClick={() => changeIcon()}>保存</button>
+                        <button className='w-20 bg-button rounded-xl text-white' onClick={(e: React.FormEvent) => changeIcon(e)}>保存</button>
                     </div>
                 </div>
                 :
-                <div className="w-full h-2/3 flex items-center justify-center">
+                // 画像選択前の表示
+                <div className="w-full h-1/2 flex items-center justify-center">
                     <label>
-                        <input className="hidden" type="file" onChange={(e) => selectIcon(e)} />
-                        <Image src={props.icon} width={100} height={100} alt="Icon" className='p-1 w-28 h-28' />
+                        <input className="hidden" type="file" accept='image/*' onChange={(e: React.FormEvent) => selectIcon(e)} />
+                        <Image src={props.icon} width={100} height={100} alt="Icon" className='p-1 w-28 h-28 rounded-full' />
                     </label>
                 </div>
                 }
                 <div className="w-full h-1/3 flex gap-2 items-center justify-center">
-                    {edit
+                    {edit_name
                     ?
                     <>
-                        <input type="text" className='w-36 bg-background text-base outline-none' placeholder={props.name} onChange={(e) => setName(e.target.value)} />                        
-                        <button className='w-20 bg-button rounded-xl text-white' onClick={() => changeName()}>保存</button>
-                        <button className='w-20 bg-gray-300 rounded-xl text-white' onClick={() => setEdit(!edit)}>キャンセル</button>
+                        <input type="text" className='w-36 bg-background text-base outline-none' placeholder={props.name} onChange={(e: any) => setName(e.target.value)} />                        
+                        <button className='w-20 bg-button rounded-xl text-white' onClick={(e: React.FormEvent) => changeName(e)}>保存</button>
+                        <button className='w-20 bg-gray-300 rounded-xl text-white' onClick={() => setEdit_name(!edit_name)}>キャンセル</button>
                     </>
                     :
                     <>
                         <div className='w-16 h-full' />
                         <p className="text-base text-center w-full">{props.name}</p>
-                        <button className='bg-button text-white w-16 rounded-xl font-medium' onClick={() => setEdit(!edit)}>編集</button>
+                        <button className='bg-button text-white w-16 rounded-xl font-medium' onClick={() => setEdit_name(!edit_name)}>編集</button>
                     </>
                     }
                 </div>
