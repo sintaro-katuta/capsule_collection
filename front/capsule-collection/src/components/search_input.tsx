@@ -47,16 +47,16 @@ export default function SearchInput(props: Props) {
     return (
         <>
             <form className="w-full h-14 flex items-center justify-center">
-                <div className="flex border-2 border-black w-full rounded-2xl items-center gap-2">
+                <div className="flex border-2 border-black w-full rounded-2xl items-center justify-between gap-1 px-2">
                     <Image src="/search.svg" width={20} height={20} alt="search" className="text-gray-400" />
-                    <input type="text" id="default-search" className="block text-base py-3 text-black bg-background outline-none" placeholder="検索" required onChange={(e: React.ChangeEvent<HTMLInputElement>) => chageHandle(e)} />
+                    <input type="text" id="default-search" className="w-4/5 block text-base py-3 text-black bg-background outline-none" placeholder="検索" required onChange={(e: React.ChangeEvent<HTMLInputElement>) => chageHandle(e)} />
+                    {filter
+                    ?
+                    <Image src="/cancel.svg" width={20} height={20} alt="search" className="" onClick={() => setFilter(!filter)} />
+                    :
+                    <Image src="/filter.svg" width={20} height={20} alt="search" className="" onClick={() => setFilter(!filter)} />
+                }   
                 </div>
-                {filter
-                ?
-                    <Image src="/cancel.svg" width={20} height={20} alt="search" className="basis-1/6 p-3" onClick={() => setFilter(!filter)} />
-                :
-                    <Image src="/filter.svg" width={20} height={20} alt="search" className="basis-1/6 p-3" onClick={() => setFilter(!filter)} />
-                }
             </form>
             {filter &&
                 <>
