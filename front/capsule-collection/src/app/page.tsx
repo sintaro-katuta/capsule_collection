@@ -30,7 +30,7 @@ export default function App() {
   const [session, setSession] = useState(null)
 
   // モバイルかタブレットか取得
-  const md = new MobileDetect(navigator.userAgent)
+  // const md = new MobileDetect(navigator.userAgent)
   // ログイン情報を取得
   const auth: any = supabase.auth
 
