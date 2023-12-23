@@ -1,14 +1,17 @@
 import { PrismaClient, Prisma } from '@prisma/client'
-import type { NextApiRequest, NextApiResponse } from 'next'
-import { prisma } from '../../../../../../lib/Prisma'
+import { NextRequest, NextResponse } from 'next/server'
+import prisma from '../../../../../../lib/Prisma'
 
-export async function POST(request: any) {
-    const body = await request.json()
+export const POST = async(req: NextRequest, res: NextResponse) => {
+    try{
+        const body = await req.json()
 
-    const user = await prisma.user.update({
-        where: { id: body.id },
-        data: { email: body.email }
-    })
-    prisma.$disconnect()
-    return new Response(JSON.stringify({ message: user }))
+        const user = await prisma.user.update({
+            where: { id: body.id },
+            data: { email: body.email }
+        })
+        return NextResponse.json({ message: "Success", user }, { status: 200 })
+    }catch(err){
+        return NextResponse.json({ message: "Error", err }, { status: 500 })
+    }
 }

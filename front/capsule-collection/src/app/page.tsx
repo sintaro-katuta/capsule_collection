@@ -23,32 +23,29 @@ export default function App() {
   // ユーザを情報の状態
   const [currentUser, setCurrentUser] = useState<any>([])
   // 画面の状態 home: ホーム profile: プロフィール search: 検索 login: ログイン access_denied: pc以外の時の画面
-  const [activeItem, setActiveItem] = useState<string>("loading")
-  // ログイン情報の状態
-  const [loading, setLoading] = useState<boolean>(true)
+  const [activeItem, setActiveItem] = useState<string>("")
   // カプセルの状態
   const [capsule, setCapsule]: any = useState<any>([])
-
+  // ログイン情報の状態
   const [session, setSession] = useState(null)
 
   // モバイルかタブレットか取得
-  const md = new MobileDetect(navigator.userAgent);
-
+  const md = new MobileDetect(navigator.userAgent)
   // ログイン情報を取得
   const auth: any = supabase.auth
 
   //session処理の実行中は画面を表示しないようにする
   useEffect(() => {
-    console.log("session")
     setSession(auth.getSession())
-    auth.onAuthStateChange((_event: string, session: any) => {
+    const { data: authData } = auth.onAuthStateChange((_event: string, session: any) => {
       setSession(session)
     })
+    // リスナーの解除
+    return () => authData.subscription.unsubscribe()
   }, [auth])
 
   //sessionが変更されたらユーザー情報を取得する
   useEffect(() => {
-    console.log("user")
     if (session) {
       setActiveItem("home")
     } else {
@@ -58,21 +55,21 @@ export default function App() {
   }, [session])
 
   return (
-    <div className="w-screen h-screen fixed">
+    <div className={"w-screen h-screen fixed"}>
       <Header />
       <div className="w-full h-9/12 px-7">
         <div className="w-full h-full">
               {activeItem === "home" && <Home setActiveItem={setActiveItem} />}
-              {activeItem === "profile" && <Profile capsule={capsule} />}
-              {activeItem === "search" && <Search capsule={capsule} />}
-              {activeItem === "add_input" && <Add_Input capsule={capsule} />}
+              {activeItem === "profile" && <Profile setActiveItem={setActiveItem} />}
+              {activeItem === "search" && <Search />}
+              {activeItem === "add_input" && <Add_Input setActiveItem={setActiveItem} />}
               {activeItem === "login" && <Login setActiveItem={setActiveItem} />}
               {activeItem === "access_denied" && <AccessDenied />}
         </div>
       </div>
       {activeItem !== "access_denied" &&
         // 画面下のメニュー
-        <Menu activeItem={activeItem} setActiveItem={setActiveItem} setLoading={setLoading} />
+        <Menu activeItem={activeItem} setActiveItem={setActiveItem} />
       }
     </div>
   )

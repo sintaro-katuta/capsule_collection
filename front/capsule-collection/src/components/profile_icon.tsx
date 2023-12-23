@@ -3,12 +3,9 @@
 import React, { useState } from 'react'
 // Next関連
 import Image from 'next/image'
-// Firebase関連
-import { getAuth, updateProfile } from "firebase/auth";
 
 // Supabase関連
 import { supabase } from "@/supabase/client"
-import { set } from 'firebase/database';
 
 type Props = {
     uid: string
@@ -58,10 +55,11 @@ export default function ProfileIcon(props: Props) {
         })
         if(error){
             console.log(error)
+            return
         }
         auth.updateUser({
             data: {
-                photoURL: file.fileName
+                photoURL: data.path
             }
         })
     }
@@ -124,9 +122,9 @@ export default function ProfileIcon(props: Props) {
                     {edit_name
                     ?
                     <>
-                        <input type="text" className='w-36 bg-background text-base outline-none' placeholder={props.name} onChange={(e: any) => setName(e.target.value)} />                        
-                        <button className='w-20 bg-button rounded-xl text-white' onClick={(e: React.FormEvent) => changeName(e)}>保存</button>
-                        <button className='w-20 bg-gray-300 rounded-xl text-white' onClick={() => setEdit_name(!edit_name)}>キャンセル</button>
+                        <input type="text" className='w-36 bg-background text-base border-b border-black outline-none' placeholder={props.name} onChange={(e: any) => setName(e.target.value)} />                                                
+                        <button className='w-fit px-2 bg-gray-300 rounded-xl text-white' onClick={() => setEdit_name(!edit_name)}>キャンセル</button>
+                        <button className='w-fit px-2 bg-button rounded-xl text-white' onClick={(e: React.FormEvent) => changeName(e)}>保存</button>
                     </>
                     :
                     <>

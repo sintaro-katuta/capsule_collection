@@ -14,6 +14,7 @@ export default function Profile(props: any) {
     // ログインしているユーザの情報
     const [is_logout, setIs_logout] = useState<boolean>(false)
     const [loading, setLoading] = useState<boolean>(true)
+    const [capsule, setCapsule] = useState<any>([])
 
     const auth: any = supabase.auth
     // ログアウトするための関数
@@ -27,7 +28,8 @@ export default function Profile(props: any) {
     useEffect(() => {
         const getUser = async () => {
             const { data: { user } } = await auth.getUser()
-            const { data, error } = await supabase.storage.from('user_icon').createSignedUrl(`${user.id}/${user.user_metadata.photoURL}`, 3600)
+            console.log(user)
+            const { data, error } = await supabase.storage.from('user_icon').createSignedUrl(`${user.user_metadata.photoURL}`, 3600)
             if(data){
                 const userData = {
                     uid: user.id,
@@ -39,7 +41,6 @@ export default function Profile(props: any) {
                 setLoading(false)
             }
         }
-        // alert("ローディング中")
         setLoading(true)
         getUser()
     }, [auth, props])
@@ -74,7 +75,7 @@ export default function Profile(props: any) {
                 {/* ユーザのアイコンを表示するコンポーネント */}
                 <ProfileIcon uid={user.uid} name={user.name} icon={user.icon} />
                 {/* ユーザの持っているカプセルを表示するコンポーネント */}
-                <Mystamp capsule={props.capsule} />
+                <Mystamp capsule={capsule} />
             </>
             }
         </>

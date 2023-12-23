@@ -1,6 +1,6 @@
 import RecentCapsule from "./recent_capsule"
 import Stamp from "./stamp"
-import Add_Input from "./add_input"
+import AddIcon from "./add_icon"
 import { useEffect, useState } from "react"
 import Loading from "./loading"
 
@@ -18,7 +18,6 @@ export default function Home(props: Props) {
 
     return (
         <>
-            {console.log(loading)}
             {loading
             ?
                 <Loading />

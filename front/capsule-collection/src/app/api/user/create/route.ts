@@ -1,17 +1,17 @@
-import { PrismaClient, Prisma } from '@prisma/client'
-import type { NextApiRequest } from 'next'
-import { prisma } from '../../../../../lib/Prisma'
+import prisma, { Prisma } from '../../../../../lib/Prisma'
+import { NextResponse } from 'next/server'
 
-export async function POST(request: any) {
-    const body = await request.json()
-
-    const userData: Prisma.UserCreateInput = {
-        id: body.id,
-        username: body.username,
-        email: body.email
+export const POST = async(req: Request, res: NextResponse) => {
+    try{
+        const body = await req.json()
+        const userData: Prisma.UserCreateInput = {
+            id: body.id,
+            username: body.username,
+            email: body.email,
+        }
+        const user = await prisma.user.create({ data: userData })
+        return NextResponse.json({ message: "Success", user }, { status: 200 })
+    }catch(err){
+        return NextResponse.json({ message: "Error", err }, { status: 500 })
     }
-
-    const user = await prisma.user.create({ data: userData })
-    prisma.$disconnect()
-    return new Response(JSON.stringify({ message: user }))
 }

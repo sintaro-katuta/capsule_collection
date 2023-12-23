@@ -1,12 +1,10 @@
 // 画面下のメニューのコンポーネント
 // Next関数
-import { set } from "firebase/database"
 import Image from "next/image"
 
 type Props = {
     activeItem: string
     setActiveItem: (any)
-    setLoading: (any)
 }
 
 export default function Menu(props: Props) {

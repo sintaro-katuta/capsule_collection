@@ -1,5 +1,6 @@
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
+  previewFeatures = ["fullTextSearch"]
 }
 
 datasource db {
@@ -8,35 +9,38 @@ datasource db {
 }
 
 model User {
-  id          String        @id
-  createAt    DateTime      @default(now()) @map("created_at")
-  email       String?       @unique
-  updateAt    DateTime      @updatedAt @map("update_at")
-  username    String?
-  UserCapsule UserCapsule[]
+  id       String        @id
+  createAt DateTime      @default(now()) @map("created_at")
+  email    String        @unique
+  role     String        @default("USER")
+  updateAt DateTime      @updatedAt @map("update_at")
+  username String?
+  capsule  UserCapsule[]
 }
 
 model UserCapsule {
-  id        String  @id @default(uuid())
   userId    String
   capsuleId String
-  capsule   Capsule @relation(fields: [capsuleId], references: [id])
-  user      User    @relation(fields: [userId], references: [id])
+  user      User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  capsule   Capsule @relation(fields: [capsuleId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, capsuleId])
+}
+
+model Category {
+  id       String    @id @default(uuid())
+  name     String
+  image    String
+  price    Int
+  createAt DateTime  @default(now()) @map("created_at")
+  capsule  Capsule[]
 }
 
 model Capsule {
   id          String        @id @default(uuid())
-  title       String?
-  image       String?
-  category    String?
-  UserCapsule UserCapsule[]
-}
-
-model Category {
-  id       String   @id @default(uuid())
-  name     String
-  image    String?
-  price    Int?
-  company  String?
-  createAt DateTime @default(now()) @map("created_at")
+  name        String
+  image       String
+  categoryId  String
+  category    Category      @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  userCapsule UserCapsule[]
 }
