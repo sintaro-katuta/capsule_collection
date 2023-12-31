@@ -10,7 +10,7 @@ export default function Header() {
                 alt=""
                 width={80}
                 height={80}
-                className="w-1/3"
+                className="w-1/6"
             />
         </div>
     )

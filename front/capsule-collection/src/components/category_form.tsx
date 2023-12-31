@@ -1,7 +1,11 @@
 import Image from 'next/image'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, createRef } from 'react'
+import "cropperjs/dist/cropper.css"
+import Cropper from 'react-cropper'
+import { ReactCropperElement } from 'react-cropper'
 
 export default function CategoryForm(props: any) {
+    const cropperRef = createRef<ReactCropperElement>()
     const priceList: number[] = [200, 300, 400, 500, 600, 800, 1000, 1500, 2000, 2500]
 
     const [name, setName] = useState<string>('')
@@ -52,7 +56,7 @@ export default function CategoryForm(props: any) {
         setImage(fileData)
     }
 
-    function submit(e: React.FormEvent) {
+    async function submit(e: React.FormEvent) {
         e.preventDefault()
         if(!name){
             setError('シリーズ・カテゴリーを入力してください')
@@ -62,6 +66,12 @@ export default function CategoryForm(props: any) {
             setError('イメージ画像を選択してください')
             return
         }
+        if(!cropperRef.current) return
+
+        const canvas = cropperRef.current.cropper.getCroppedCanvas()
+        const dataURL = canvas.toDataURL()
+        console.log(dataURL)
+
         props.setCategory({
             name: name,
             price: price,
@@ -91,10 +101,22 @@ export default function CategoryForm(props: any) {
                         <input type="file" accept="image/*" className='hidden' onChange={(e: React.FormEvent) => selectImage(e)} />
                         <p>ファイルの選択</p>
                     </label>
-                    <div className='flex items-center justify-center w-full h-32'>
+                    <div className='flex items-center justify-center w-full h'>
                     {!isEmpty(image)
                     ?
-                        <Image src={image.url} width={120} height={120} alt="" />
+                        <Cropper
+                            src={image.url}
+                            ref={cropperRef}
+                            aspectRatio={1}
+                            guides={false}
+                            viewMode={1}
+                            minCropBoxHeight={10}
+                            minCropBoxWidth={10}
+                            background={false}
+                            responsive={true}
+                            checkOrientation={false}
+                            autoCropArea={1}
+                        />
                     :
                         <p className='text-base'>選択した画像が表示されます</p>
                     }

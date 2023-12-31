@@ -4,6 +4,7 @@ import axios from "axios"
 import React, { useState } from "react"
 // Supabase関連
 import { supabase } from "@/supabase/client"
+import { SupabaseAuthClient } from "@supabase/supabase-js/dist/module/lib/SupabaseAuthClient"
 
 
 type Props = {
@@ -18,26 +19,34 @@ export default function Login(props: Props) {
     const [email, setEmail] = useState('')
     // ユーザのパスワードの状態
     const [password, setPassword] = useState('')
+
+    const [error, setError] = useState<string>("")
     // ログイン情報の取得
     let auth: any = supabase.auth
     // ログインするための関数
     const doLogin = async (e: React.FormEvent) => {
         e.preventDefault()
+        setError("")
         const { data, error } = await auth.signInWithPassword({
             email: email,
             password: password,
         })
         if (error) {
-            alert(error)
+            setError("メールアドレスかパスワードを確認してください")
             return
         }
         const res = await axios.post('/api/user/update/login', { id: data.user.id })
+        if (res.status === 200) {
+            props.setActiveItem("home")
+        } else {
+            setError("ログインに失敗しました")
+        }
     }
 
     // 新規登録するための関数
     const doSignin = async (e: React.FormEvent) => {
-        e.preventDefault();
-        setIs_Signin(true)
+        e.preventDefault()
+        setError("")
         const { data, error } = await auth.signUp({
             email: email,
             password: password,
@@ -49,7 +58,8 @@ export default function Login(props: Props) {
             }
         })
         if (error) {
-            alert(error)
+            console.log(error.code)
+            setError(error.message)
             return
         }
         const res = await fetch('/api/user/create', {
@@ -64,12 +74,17 @@ export default function Login(props: Props) {
             }),
         })
         if(res.status === 200){
-            setIs_Signin(false)
+            setIs_Signin(true)
+        }else{
+            setError("登録に失敗しました")
         }
     }
 
     return (
         <>
+            <div className='h-7'>
+                {error && <p className='text-sm font-semibold bg-red-500 rounded-full text-white text-center'>{error}</p>}
+            </div>
             {login
                 // ログイン画面
                 ?
@@ -93,7 +108,7 @@ export default function Login(props: Props) {
                     {is_Signin
                     ?
                     <div id="modal" className="block">
-                        <div className="block w-full h-full bg-black/70 absolute top-0 left-0 z-30">                            
+                        <div className="block w-full h-full bg-black/70 absolute top-0 left-0 z-30" onClick={() => setIs_Signin(false)}>                        
                             <div className='w-full flex justify-center items-center'>
                                 <div className='bg-headline w-3/4 h-40 rounded-xl absolute top-1/2 p-3 py-5 flex flex-col justify-center gap-8'>
                                     <p className='text-lg text-white text-center'>{email}</p>
