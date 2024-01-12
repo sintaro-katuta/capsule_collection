@@ -5,7 +5,7 @@ import SearchInput from "./search_input"
 import Category from "./category"
 import CategoryDetail from "./category_detail"
 
-import { useEffect, useState } from "react"
+import { useState } from "react"
 
 export default function Search(props: any) {
     const [categories, setCategories] = useState<any[]>([])

@@ -1,5 +1,9 @@
 import Image from "next/image";
-import React from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import { supabase } from "@/supabase/client";
+import { get } from "http";
+import { GetServerSideProps } from "next";
 
 type Props = {
     category: {
@@ -15,13 +19,17 @@ type Props = {
     setDetail: React.Dispatch<React.SetStateAction<boolean>>
     setSelectCategory: React.Dispatch<React.SetStateAction<any>>
 }
-
 export default function Category(props: Props){
     const toDetail = () => {
+        console.log(props.category)
         // 詳細画面で表示するカテゴリーのIDをセット
         props.setSelectCategory(props.category)
         // 詳細画面に遷移
         props.setDetail(true)
+    }
+    const getImage = (image: string) => {
+        const { data } = supabase.storage.from('category').getPublicUrl(image)
+        return data.publicUrl
     }
     return(
         <>
@@ -31,7 +39,7 @@ export default function Category(props: Props){
                 </div>
                 <div className="w-full h-full flex gap-5">
                     <div className="w-full h-full flex items-center justify-center">
-                        <Image src={props.category.image} width={100} height={100} alt="" className="rounded-lg" />
+                        <Image src={getImage(props.category.image)} width={100} height={100} alt="" className="rounded-lg" />
                     </div>
                 </div>
             </div>

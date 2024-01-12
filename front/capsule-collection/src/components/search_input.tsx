@@ -4,8 +4,8 @@
 import CheckBox from "./checkbox"
 // Next関連
 import Image from "next/image"
-
 import axios from "axios"
+import { supabase } from "@/supabase/client"
 
 // React関連
 import React, { useEffect, useState } from 'react'
@@ -24,11 +24,15 @@ export default function SearchInput(props: Props) {
     const chageHandle = async (e: React.ChangeEvent<HTMLInputElement>) => {
         // ローディング開始
         props.setLoading(true)
+        // 検索結果の表示
+        props.setSearch(false)
         // 検索の処理
+        // 検索ワードに空白を&に変換
+        const searchWord: string = e.target.value
         // カテゴリーの名前で検索
-        const searchRes = await axios.post('/api/category/search', { name : e.target.value })
+        const searchRes = await axios.post('/api/category/search', { name : searchWord })
         console.log(searchRes.data.categories)
-        // 検索結果をセット
+
         props.setCategories(searchRes.data.categories)
         // 検索結果の表示
         props.setSearch(true)
@@ -40,6 +44,8 @@ export default function SearchInput(props: Props) {
         e.preventDefault()
         // ローディング開始
         props.setLoading(true)
+        // 検索結果の表示
+        props.setSearch(false)
         // ここに絞り込みの処理を書く
 
         // ローディング終了

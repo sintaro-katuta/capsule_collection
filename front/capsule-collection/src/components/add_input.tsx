@@ -1,12 +1,13 @@
 // カプセルを登録するコンポーネント
 // コンポーネント関連
-import Cupusule from "./capsule"
 import Loading from "./loading"
 // React関連
 import React, { useState, useEffect } from "react"
 
 import Image from "next/image"
 import axios from "axios"
+
+import { supabase } from "@/supabase/client"
 
 type Props = {
     setActiveItem: (any)
@@ -16,6 +17,8 @@ export default function Add_Input(props: Props) {
     // dbから取得したcategoriesを登録する
     const [categories, setCategories] = useState([])
     const [capsule, setCapsule] = useState<any[]>([])
+    const [selectCapsule, setSelectCapsule] = useState<boolean[]>([])
+    const [uid, setUid] = useState<string>("")
     const [loading, setLoading] = useState<boolean>(true)
 
     const cancel = (e: React.FormEvent) => {
@@ -24,18 +27,57 @@ export default function Add_Input(props: Props) {
     }
 
     const selectCategory = async (e: any) => {
+        setCapsule([])
         const res = await axios.post('/api/capsule/select', { id: e.target.value })
-        console.log(res.data)
-        setCapsule(res.data.capsule)
+        console.log(res.data.capsule)
+        res.data.capsule.forEach(async(cp: any) => {
+            const capsuleImageData = await supabase.storage.from('capsule').createSignedUrl(`${cp.image}`, 3600)
+            if(capsuleImageData.data){
+                const capsuleData = {
+                    id: cp.id,
+                    name: cp.name,
+                    image: capsuleImageData.data.signedUrl,
+                    price: cp.price,
+                }
+                console.log(capsuleData)
+                setCapsule((prev) => [...prev, capsuleData])
+            }
+        })
+        const selectCapsuleData: boolean[] = new Array(res.data.capsule.length).fill(false)
+        setSelectCapsule(selectCapsuleData)
+    }
+
+    const onSelectCapsule = (i: number) => {
+        const selectCapsuleData = [...selectCapsule]
+        selectCapsuleData[i] = !selectCapsuleData[i]
+        console.log(selectCapsuleData)
+        setSelectCapsule(selectCapsuleData)
+    }
+
+    const addCapsule = async (e: React.FormEvent) => {
+        e.preventDefault()
+        if(selectCapsule.filter((val) => val === true).length === 0) return
+        const addCapsule = capsule.filter((val, i) => selectCapsule[i])
+        console.log(addCapsule)
+        addCapsule.map(async (cp: any) => {
+            const res = await axios.post('/api/userCapsule/create', { capsuleId: cp.id, userId: uid })
+            console.log(res)
+        })
+        props.setActiveItem("home")
     
     }
     useEffect(() => {
+        const getUser = async () => {
+            const auth: any = supabase.auth
+            const { data: { user } } = await auth.getUser()
+            setUid(user.id)
+        }
         const getCategory = async () => {
             const res = await axios.get('/api/category/select')
-            console.log(res.data.categories)
             setCategories(res.data.categories)
             setLoading(false)
         }
+        getUser()
         getCategory()
     },[])
 
@@ -48,7 +90,7 @@ export default function Add_Input(props: Props) {
                 <div className="h-4/5">
                     <div className="w-full h-8 flex justify-between items-center">
                         <Image src="/cancel.svg" width={35} height={35} alt="" onClick={(e: React.FormEvent) => cancel(e)}/>
-                        <p className="w-fit bg-button p-2 py-1 rounded-full text-white font-semibold">追加</p>
+                        <p className="w-fit bg-button p-2 py-1 rounded-full text-white font-semibold" onClick={(e: React.FormEvent) => addCapsule(e)}>追加 {selectCapsule.filter((val) => val === true).length}</p>
                     </div>
                     <div>
                         <label className="block mb-2 text-sm font-medium text-gray-800" htmlFor="countries">ガチャカテゴリ</label>
@@ -61,10 +103,13 @@ export default function Add_Input(props: Props) {
                         </select>
                     </div>
                     {/* 検索結果が出るところ */}
-                    <div className="w-full h-full my-4 p-3 bg-headline rounded-xl grid grid-cols-3 grid-rows-3 place-items-center overflow-y-auto hide-scroll-bar">
+                    <div className="w-full h-full my-4 p-3 bg-headline rounded-xl grid grid-cols-3 grid-rows-3 items-center justify-center overflow-y-auto hide-scroll-bar">
                         {capsule.map((cp: any, i: number) => (
                             <>
-                                <Cupusule key={i} capsule={cp} />
+                                <div key={i} className="w-full h-full flex flex-col items-center justify-center">              
+                                    <Image src={cp.image} width={90} height={90} objectFit="contain" alt="" className={`rounded-full bg-white border-2 ${selectCapsule[i] ? 'border-button' : 'border-white'}`} onClick={(e: React.FormEvent) => onSelectCapsule(i)} />
+                                    <p className="text-sm text-white font-medium">{cp.name}</p>
+                                </div>
                             </>
                         ))}
                     </div>

@@ -1,6 +1,7 @@
 import axios from 'axios'
 import Image from 'next/image'
 import { useState, useEffect } from 'react'
+import { supabase } from '@/supabase/client'
 
 type Props = {
     setDetail: React.Dispatch<React.SetStateAction<boolean>>
@@ -12,10 +13,13 @@ export default function CategoryDetail(props: Props){
     const cansel = () => {
         props.setDetail(false)
     }
-
+    const getImage = (image: string) => {
+        const { data } = supabase.storage.from('capsule').getPublicUrl(image)
+        return data.publicUrl
+    }
     useEffect(() => {
         props.setLoading(true)
-        console.log(props.selectCategory)
+        console.log(props.selectCategory.capsule)
         props.setLoading(false)
     },[props])
     return(
@@ -33,8 +37,8 @@ export default function CategoryDetail(props: Props){
                         <p className='text-lg font-medium'>カプセル</p>
                         <div className='w-full h-4/5 bg-headline rounded-lg grid grid-cols-3 grid-rows-3 overflow-x-auto'>
                             {props.selectCategory.capsule.map((capsule: any) => (
-                                <div className='w-full flex justify-center items-center my-4' key={capsule.id}>
-                                    <Image src={capsule.image} width={60} height={500} objectFit='contain' alt="" className='object-contain rounded-full bg-white p-1' />
+                                <div className='w-full flex justify-center items-center' key={capsule.id}>
+                                    <Image src={getImage(capsule.image)} width={80} height={80} objectFit='contain' alt="" className='object-contain rounded-full bg-white p-1' />
                                 </div>
                             ))}
                         </div>

@@ -1,20 +1,22 @@
 // カプセルの情報を表示するコンポーネント
 // Next関係
 import Image from "next/image"
+import React from "react"
 
 type Props = {
     capsule: any
+    selectCapsule: boolean
 }
 
 export default function Capsule(props: Props) {
+
+    const selectCapsule = (e: React.FormEvent) => {
+        e.preventDefault()
+    }
     return (
-        <div className="w-full h-full p-3">
-            <div className="flex justify-center items-center">                
-                <Image src={props.capsule.image} width={100} height={100} alt="" className="object-contain rounded" />
-            </div>
-            <div className="flex justify-center items-center">
-                <p className="text-sm text-white">{props.capsule.name}</p>
-            </div>
+        <div className="w-full h-full flex flex-col items-center justify-center">              
+            <Image src={props.capsule.image} width={90} height={90} objectFit="contain" alt="" className={`rounded-full border-2 ${props.selectCapsule ? 'border-white' : 'border-button'}`} onClick={(e: React.FormEvent) => selectCapsule(e)} />
+            <p className="text-sm text-white font-medium">{props.capsule.name}</p>
         </div>
     )
 }

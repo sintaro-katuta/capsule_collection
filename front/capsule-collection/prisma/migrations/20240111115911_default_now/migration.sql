@@ -1,0 +1,8 @@
+-- AlterTable
+ALTER TABLE "Category" ALTER COLUMN "created_at" SET DATA TYPE TIMESTAMPTZ;
+
+-- AlterTable
+ALTER TABLE "User" ALTER COLUMN "created_at" SET DATA TYPE TIMESTAMPTZ;
+
+-- AlterTable
+ALTER TABLE "UserCapsule" ALTER COLUMN "created_at" SET DEFAULT CURRENT_TIMESTAMP;

@@ -8,6 +8,8 @@ import { useEffect, useState } from "react"
 // Supabase関連
 import { supabase } from "@/supabase/client"
 
+import axios from "axios"
+
 export default function Profile(props: any) {
 
     const [user, setUser] = useState<any>({})
@@ -28,7 +30,6 @@ export default function Profile(props: any) {
     useEffect(() => {
         const getUser = async () => {
             const { data: { user } } = await auth.getUser()
-            console.log(user)
             const { data, error } = await supabase.storage.from('user_icon').createSignedUrl(`${user.user_metadata.photoURL}`, 3600)
             if(data){
                 const userData = {
@@ -37,7 +38,10 @@ export default function Profile(props: any) {
                     icon: data.signedUrl
                 
                 }
+                const capsuleRes = await axios.post('/api/userCapsule/select', { userId: user.id })
+                console.log(capsuleRes.data.capsule)
                 setUser(userData)
+                setCapsule(capsuleRes.data.capsule)
                 setLoading(false)
             }
         }
