@@ -88,8 +88,7 @@ export default function CapsuleConfirm(props: any) {
             {uploading
                 ?
                 <div className="w-full h-4/5 flex justify-center items-center">
-                    <p className="text-2xl">アップロード中...</p>
-                    {uploaded && <p className="text-2xl">アップロード完了</p>}
+                    {uploaded ? <p className="text-2xl">アップロード完了</p> :<p className="text-2xl">アップロード中...</p>}
                 </div>
                 :
                 <div className="w-full h-4/5 flex flex-col gap-3">

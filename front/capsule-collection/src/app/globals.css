@@ -49,3 +49,39 @@ body{
       transform: rotate(-360deg);
   }
 }
+
+.slam-top {
+  transform-origin: 50% 100%;
+  animation: slam-top-animation 0.8s cubic-bezier(0.64, 0, 0.78, 0) 0s 1 normal both running;
+}
+
+@keyframes slam-top-animation {
+  0% {
+      transform: translate(0px, -200px) scale(1, 1);
+  }
+
+  70% {
+      transform: scale(1, 0.9);
+  }
+
+  100% {
+      transform: none;
+  }
+}
+
+.pulse {
+  transform-origin: 50% 50%;
+  animation: pulse-animation 1s ease-in-out 0s infinite normal both running;
+}
+
+@keyframes pulse-animation {
+
+  0%,
+  100% {
+      transform: scaleX(1);
+  }
+
+  50% {
+      transform: scale3d(1.05, 1.05, 1.05);
+  }
+}

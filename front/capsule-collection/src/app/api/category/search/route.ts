@@ -10,6 +10,19 @@ export const POST = async(req: Request, res: NextResponse) => {
                     search: body.name
                 }
             },
+            select:{
+                id: true,
+                name: true,
+                price: true,
+                image: true,
+                capsule: {
+                    select: {
+                        id: true,
+                        name: true,
+                        image: true,
+                    }
+                }
+            }
         })
         return NextResponse.json({ message: "Success", categories }, { status: 200 })
     }catch(err){

@@ -7,8 +7,8 @@ type Props = {
 
 export default function AddIcon(props: Props){
     return(
-        <div className="w-full h-full flex justify-center">
-            <Image src="/add.svg" width={60} height={60} alt="" className="object-contain rounded-full absolute top-3/4" onClick={() => props.setActiveItem("search")} />
+        <div className="w-full h-full flex justify-end">
+            <Image src="/add.svg" width={65} height={65} alt="" className="rounded-full absolute top-3/4" onClick={() => props.setActiveItem("add_input")} />
         </div>
     )
 }

@@ -105,8 +105,8 @@ export default function ProfileIcon(props: Props) {
                         <Image src={file.url} width={100} height={100} alt="Icon" className='p-1 w-28 h-28 rounded-full' />
                     </label>
                     <div className='flex flex-col items-center justify-center gap-3'>
+                    <button className='w-20 bg-button rounded-xl text-white' onClick={(e: React.FormEvent) => changeIcon(e)}>保存</button>
                         <button className='w-20 bg-gray-300 rounded-xl text-white' onClick={() => setEdit_icon(false)}>キャンセル</button>
-                        <button className='w-20 bg-button rounded-xl text-white' onClick={(e: React.FormEvent) => changeIcon(e)}>保存</button>
                     </div>
                 </div>
                 :

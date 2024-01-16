@@ -28,9 +28,6 @@ export default function App() {
   const [capsule, setCapsule]: any = useState<any>([])
   // ログイン情報の状態
   const [session, setSession] = useState(null)
-
-  // モバイルかタブレットか取得
-  // const md = new MobileDetect(navigator.userAgent)
   // ログイン情報を取得
   const auth: any = supabase.auth
 
@@ -46,11 +43,20 @@ export default function App() {
 
   //sessionが変更されたらユーザー情報を取得する
   useEffect(() => {
-    if (session) {
-      setActiveItem("home")
-    } else {
-      // ログインしていないユーザなのでログイン画面
-      setActiveItem("login")
+    // モバイルかタブレットか取得
+    const md = new MobileDetect(navigator.userAgent)
+    console.log(md.mobile())
+    console.log(md.tablet())
+    if (md.mobile() === null && md.tablet() === null) {
+      setActiveItem("access_denied")
+    }else{
+      if (session){
+        // モバイルかタブレットなのでアクセス拒否画面
+        setActiveItem("home")
+      }else{
+        // ログインしていないユーザなのでログイン画面
+        setActiveItem("login")
+      }
     }
   }, [session])
 

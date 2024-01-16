@@ -122,13 +122,13 @@ export default function CapsuleForm(props: any) {
                             </div>
                         }    
                         <div className="w-full h-full flex flex-col items-center justify-center gap-3">
+                            <div className='w-full flex'>
+                                <input type="text" className='w-full h-8 rounded-full px-5 outline-none' placeholder='名前' id="name" value={name} onChange={(e: any) => setName(e.target.value)} />    
+                            </div>
                             <label className='w-full h-10 bg-white rounded-full flex justify-center items-center'>
                                 <input type="file" accept="image/*" className='hidden' onChange={(e: React.FormEvent) => selectImage(e)} />
                                 <p>ファイルの選択</p>
                             </label>
-                            <div className='w-full flex'>
-                                <input type="text" className='w-full h-8 rounded-full px-5 outline-none' placeholder='名前' id="name" value={name} onChange={(e: any) => setName(e.target.value)} />    
-                            </div>
                             <div className='w-full h-8 bg-button flex justify-center items-center rounded-full cursor-pointer' onClick={() => addCapsule()}>
                                 <p className='text-white'>追加</p>
                             </div>

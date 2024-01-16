@@ -1,4 +1,4 @@
-version: '3'
+version: "3"
 
 services:
   front:
@@ -13,4 +13,3 @@ services:
     environment:
       - WATCHPACK_POLLING=true
     command: sh -c "npm run dev"
-    
