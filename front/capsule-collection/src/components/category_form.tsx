@@ -12,6 +12,7 @@ export default function CategoryForm(props: any) {
     const [price, setPrice] = useState<number>(200)
     const [image, setImage] = useState<any>({})
     const [error, setError] = useState<string>('')
+    const [modal, setModal] = useState<boolean>(false)
 
     // オブジェクトが空かどうかを判定する関数(空ならtrueを返す)
     const isEmpty = (obj: Object) => {
@@ -101,31 +102,33 @@ export default function CategoryForm(props: any) {
                         <input type="file" accept="image/*" className='hidden' onChange={(e: React.FormEvent) => selectImage(e)} />
                         <p>ファイルの選択</p>
                     </label>
-                    <div className='flex items-center justify-center w-full h'>
-                    {!isEmpty(image)
-                    ?
-                        <Cropper
-                            src={image.url}
-                            ref={cropperRef}
-                            aspectRatio={1}
-                            guides={false}
-                            viewMode={1}
-                            minCropBoxHeight={10}
-                            minCropBoxWidth={10}
-                            background={false}
-                            responsive={true}
-                            checkOrientation={false}
-                            autoCropArea={1}
-                        />
-                    :
-                        <p className='text-base'>選択した画像が表示されます</p>
-                    }
+                    <div className='flex items-center justify-center'>
+                        {!isEmpty(image)
+                        ?
+                            <Cropper
+                                src={image.url}
+                                width={200}
+                                height={200}
+                                ref={cropperRef}
+                                aspectRatio={1}
+                                guides={false}
+                                viewMode={1}
+                                minCropBoxHeight={10}
+                                minCropBoxWidth={10}
+                                background={false}
+                                responsive={true}
+                                checkOrientation={false}
+                                autoCropArea={0.5} // Adjust the value to resize the cropped area
+                            />
+                        :
+                            <p className='text-base'>選択した画像が表示されます</p>
+                        }
                     </div>
                 </div>
-                <div className='h-6'>
-                    {error && <p className='text-base font-semibold bg-red-500 rounded-full text-white text-center'>{error}</p>}
-                </div>
                 <div>
+                    <div className='h-6'>
+                        {error && <p className='text-base font-semibold bg-red-500 rounded-full text-white text-center'>{error}</p>}
+                    </div>
                     <button className="bg-button text-white rounded-xl w-full h-10 font-bold" onClick={(e: React.FormEvent) => submit(e)}>次へ</button>
                 </div>
             </div>

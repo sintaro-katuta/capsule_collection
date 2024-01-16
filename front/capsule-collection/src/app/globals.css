@@ -68,3 +68,20 @@ body{
       transform: none;
   }
 }
+
+.pulse {
+  transform-origin: 50% 50%;
+  animation: pulse-animation 1s ease-in-out 0s infinite normal both running;
+}
+
+@keyframes pulse-animation {
+
+  0%,
+  100% {
+      transform: scaleX(1);
+  }
+
+  50% {
+      transform: scale3d(1.05, 1.05, 1.05);
+  }
+}

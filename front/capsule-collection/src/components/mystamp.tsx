@@ -2,7 +2,6 @@
 // コンポーネント関連
 import Capsule from './capsule'
 import { useState, useEffect } from 'react'
-import Image from 'next/image'
 import axios from 'axios'
 
 type Props = {
@@ -12,18 +11,6 @@ type Props = {
 export default function Mystamp(props: Props) {
     const [categories, setCategories] = useState<any>([])
     const [countList, setCountList] = useState<any>([])
-
-    function Count(categoryId: number, userCapsule: any){
-        userCapsule.forEach((e: any) => {
-            console.log(e.capsule.category.id)
-            console.log(categoryId)
-            if(e.capsule.category.id == categoryId){
-                console.log('ok')
-            }
-        });
-        console.log(categoryId, userCapsule)
-    }
-
     useEffect(() => {
         const getCategory = async () => {
             const res = await axios.get('/api/category/select')
@@ -38,7 +25,7 @@ export default function Mystamp(props: Props) {
             setCountList(newcountList)
         }
         getCategory()
-    }, [])
+    }, [props])
     return (
         <div className="h-1/2 flex flex-col items-start justify-start gap-5 overflow-y-auto">
             {categories.map((category: any, i: number) => 
