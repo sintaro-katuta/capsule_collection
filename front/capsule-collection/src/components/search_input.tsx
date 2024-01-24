@@ -20,12 +20,16 @@ export default function SearchInput(props: Props) {
     const [filter, setFilter] = useState<boolean>(false)
     const [categories, setCategories] = useState<any>([])
     const priceList: number[] = [200, 300, 400, 500, 600, 800, 1000, 1500, 2000, 2500]
+    const [selectPrice, setSelectPrice] = useState<number[]>([])
+    const [selectCategory, setSelectCategory] = useState<string[]>([])
     // inputの変更時の処理
     const chageHandle = async (e: React.ChangeEvent<HTMLInputElement>) => {
         // ローディング開始
         props.setLoading(true)
         // 検索結果の表示
         props.setSearch(false)
+        // フィルターを閉じる
+        setFilter(false)
         // 検索の処理
         // 検索ワードに空白を&に変換
         const searchWord: string = e.target.value
@@ -47,7 +51,22 @@ export default function SearchInput(props: Props) {
         // 検索結果の表示
         props.setSearch(false)
         // ここに絞り込みの処理を書く
-
+        if(selectCategory.length > 0){
+            // カテゴリーで絞り込み
+            console.log("カテゴリーで絞り込み")
+            const getCategory = async () => {
+                const searchRes: any = await axios.post('/api/category/select/name', { name : selectCategory })
+                if(searchRes.data){
+                    console.log(searchRes.data)
+                }
+            }
+        }else if(selectPrice.length > 0){
+            // 価格で絞り込み
+            console.log("価格で絞り込み")
+        }else if(selectCategory.length > 0 && selectPrice.length > 0){
+            // カテゴリーと価格で絞り込み
+            console.log("カテゴリーと価格で絞り込み")
+        }
         // ローディング終了
         props.setLoading(false)
         // 検索結果の表示
@@ -59,6 +78,10 @@ export default function SearchInput(props: Props) {
     const onFilter = (search: boolean) => {
         props.setSearch(search)
         setFilter(!filter)
+    }
+
+    const dataFetch = async () => {
+
     }
 
     useEffect(() => {
@@ -89,7 +112,7 @@ export default function SearchInput(props: Props) {
                             <p className="w-fit bg-headline rounded-2xl text-white px-2 my-2">カテゴリ</p>
                             <div className="w-full h-4/5 flex flex-wrap gap-3 overflow-y-auto hide-scroll-bar">
                                 {categories.map((category: any, i: number) => (
-                                    <CheckBox value={category.name} key={i} />
+                                    <CheckBox key={i} value={category.name} type={"category"} selectCategory={selectCategory} setSelectCategory={setSelectCategory} selectPrice={selectPrice} setSelectPrice={setSelectPrice} />
                                 ))}
                             </div>
                         </div>
@@ -98,7 +121,7 @@ export default function SearchInput(props: Props) {
                             <p className="w-fit bg-headline rounded-3xl text-white px-2 my-2">価格</p>
                             <div className="w-full h-4/5 grid grid-cols-3 place-items-center gap-5 overflow-y-auto hide-scroll-bar">
                                 {priceList.map((price: number, i: number) => (
-                                    <CheckBox key={i} value={price+"円"} />
+                                    <CheckBox key={i} value={price+"円"} type={"price"} selectCategory={selectCategory} setSelectCategory={setSelectCategory} selectPrice={selectPrice} setSelectPrice={setSelectPrice}/>
                                 ))}
                             </div>
                         </div>

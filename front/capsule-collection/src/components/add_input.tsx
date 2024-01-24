@@ -22,7 +22,6 @@ export default function Add_Input(props: Props) {
     const [addFlag, setAddFlag] = useState<boolean>(false);
     const [addCapsuleData, setAddCapsuleData] = useState<any[]>([]);
     const [selectCapsule, setSelectCapsule] = useState<boolean[]>([]);
-    const [finishAnimation, setFinishAnimation] = useState<boolean>(false);
     const [uid, setUid] = useState<string>("");
     const [loading, setLoading] = useState<boolean>(true);
 
@@ -66,6 +65,7 @@ export default function Add_Input(props: Props) {
         e.preventDefault();
         // if (selectCapsule.filter((val) => val === true).length === 0) return;
         const addCapsule = capsule.filter((val, i) => selectCapsule[i]);
+        console.log(addCapsule);
         setAddCapsuleData(addCapsule);
         // addCapsule.map(async (cp: any) => {
         //     const res = await axios.post("/api/userCapsule/create", {
@@ -104,7 +104,7 @@ export default function Add_Input(props: Props) {
                             {selectCapsule.map((val, i) => (
                                 <StampAnimation
                                     key={i}
-                                    capsule={addCapsuleData[i]}
+                                    capsule={[addCapsuleData][i]}
                                     categoryName={categoryName}
                                     capsuleLength={addCapsuleData.length}
                                     capsuleIndex={i}

@@ -130,7 +130,7 @@ export default function ProfileIcon(props: Props) {
                     <>
                         <div className='w-16 h-full' />
                         <p className="text-base text-center w-full">{props.name}</p>
-                        <button className='bg-button text-white w-16 rounded-xl font-medium' onClick={() => setEdit_name(!edit_name)}>編集</button>
+                        <button className='text-button w-12 font-medium border-b border-button' onClick={() => setEdit_name(!edit_name)}>編集</button>
                     </>
                     }
                 </div>
