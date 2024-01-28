@@ -4,9 +4,9 @@ import { NextResponse } from 'next/server'
 export const POST = async(req: Request, res: NextResponse) => {
     try{
         const body: any = await req.json()
-        const categoryData = await prisma.category.findMany({
+        const category = await prisma.category.findMany({
             where: {
-                name: {contains: body.name.join(' ')}
+                name: {equals: body.name}
             },
             select: {
                 id: true,
@@ -22,8 +22,7 @@ export const POST = async(req: Request, res: NextResponse) => {
                 }
             }
         })
-        console.log(categoryData)
-        return NextResponse.json({ message: "Success!" }, { status: 200 })
+        return NextResponse.json({ message: "Success", category }, { status: 200 })
     }catch(err){
         return NextResponse.json({ message: "Error", err }, { status: 500 })
     }
