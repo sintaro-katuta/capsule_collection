@@ -85,8 +85,8 @@ export default function Qr_Camera(props: any){
                 alt=""
                 onClick={(e: React.FormEvent) => cancel(e)}
             />
-            <video ref={videoRef} className='absolute top-0 left-0 hidden'></video>
-            <canvas ref={canvasRef} className={`flex justify-center ${cameraSwitch}`}></canvas>
+            <video ref={videoRef} className={`flex justify-center ${cameraSwitch}`}></video>
+            <canvas ref={canvasRef} className='hidden'></canvas>
             {qrCode &&
                 <>
                     <button onClick={(e: React.FormEvent) => addCapsule(e)}>追加</button>
