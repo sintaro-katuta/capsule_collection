@@ -21,7 +21,7 @@ export default function Qr_Camera(props: any){
 
     useEffect(() => {
         let contentWidth = 720
-        let contentHeight = 1280
+        let contentHeight = 960
         const config = { audio:false, video: { facingMode: "environment", width: contentWidth, height: contentHeight }}
 
         const ctx = canvasRef.current?.getContext('2d')
@@ -85,7 +85,7 @@ export default function Qr_Camera(props: any){
                 alt=""
                 onClick={(e: React.FormEvent) => cancel(e)}
             />
-            <video ref={videoRef} autoPlay playsInline width={720} height={1280} className={`flex justify-center ${cameraSwitch}`}></video>
+            <video ref={videoRef} autoPlay playsInline className={`w-full h-full flex justify-center ${cameraSwitch}`}></video>
             <canvas ref={canvasRef} className='hidden'></canvas>
             {qrCode &&
                 <>
