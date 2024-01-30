@@ -1,10 +1,13 @@
-import React, { useEffect, useRef } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import Image from 'next/image'
 import jsQR from 'jsqr'
 
 export default function Qr_Camera(props: any){
     const videoRef = useRef<HTMLVideoElement>(null)
     const canvasRef = useRef<HTMLCanvasElement>(null)
+
+    const [contentWidth, setContentWidth] = useState<number>(720)
+    const [contentHeight, setContentHeight] = useState<number>(1080)
 
     const [qrCode, setQrCode] = React.useState<string>("")
     const [cameraSwitch, setCameraSwitch] = React.useState<string>("")
@@ -20,8 +23,6 @@ export default function Qr_Camera(props: any){
     };
 
     useEffect(() => {
-        let contentWidth = 720
-        let contentHeight = 960
         const config = { audio:false, video: { facingMode: "environment", width: contentWidth, height: contentHeight }}
 
         const ctx = canvasRef.current?.getContext('2d')
@@ -63,8 +64,8 @@ export default function Qr_Camera(props: any){
                 videoRef.current.onloadedmetadata = () => {
                     if (videoRef.current){
                         videoRef.current.play()
-                        contentWidth = contentWidth
-                        contentHeight = contentHeight
+                        setContentWidth(videoRef.current.clientWidth)
+                        setContentHeight(videoRef.current.clientHeight)
                         canvasUpdate()
                         checkImage()
                     }
@@ -74,7 +75,7 @@ export default function Qr_Camera(props: any){
         .catch(err => {
             console.log(err)
         })
-    },[])
+    },[contentWidth, contentHeight])
 
     return(
         <>
