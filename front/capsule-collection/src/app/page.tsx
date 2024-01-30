@@ -70,7 +70,7 @@ export default function App() {
               {activeItem === "profile" && <Profile setActiveItem={setActiveItem} />}
               {activeItem === "search" && <Search />}
               {activeItem === "add_input" && <Add_Input setActiveItem={setActiveItem} />}
-              {activeItem === "qr_camera" && <Qr_Camera />}
+              {activeItem === "qr_camera" && <Qr_Camera setActiveItem={setActiveItem} />}
               {activeItem === "login" && <Login setActiveItem={setActiveItem} />}
               {activeItem === "access_denied" && <AccessDenied />}
         </div>

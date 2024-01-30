@@ -1,18 +1,23 @@
 import React, { useEffect, useRef } from 'react'
-import Link from 'next/link'
+import Image from 'next/image'
 import jsQR from 'jsqr'
 
-export default function Qr_Camera(){
+export default function Qr_Camera(props: any){
     const videoRef = useRef<HTMLVideoElement>(null)
     const canvasRef = useRef<HTMLCanvasElement>(null)
-    const qrCanvasRef = useRef<HTMLCanvasElement>(null)
 
     const [qrCode, setQrCode] = React.useState<string>("")
+    const [cameraSwitch, setCameraSwitch] = React.useState<string>("")
 
     const addCapsule = (e: React.FormEvent) => {
         e.preventDefault()
         console.log(qrCode)
     }
+
+    const cancel = (e: React.FormEvent) => {
+        e.preventDefault();
+        props.setActiveItem("home");
+    };
 
     useEffect(() => {
         let contentWidth = 320
@@ -39,9 +44,10 @@ export default function Qr_Camera(){
                     const code = jsQR(imageData.data, contentWidth, contentHeight)
                     console.log("code",code)
                     if (code) {
-                        if(code.data || "https://capsule-collection.vercel.app/*" || "http://localhost:3001/"){
+                        // if(code.data || "https://capsule-collection.vercel.app/*" || "http://localhost:3001/"){
                             setQrCode(code.data)
-                        }
+                            setCameraSwitch("hidden")
+                        // }
                     }else{
                         console.log("fail")
                     }
@@ -59,7 +65,6 @@ export default function Qr_Camera(){
                         videoRef.current.play()
                         contentWidth = contentWidth
                         contentHeight = contentHeight
-                        console.log("!!!!!!!!!!!!!!!", contentWidth, contentHeight)
                         canvasUpdate()
                         checkImage()
                     }
@@ -73,11 +78,20 @@ export default function Qr_Camera(){
 
     return(
         <div>
-            <p>qr_camera</p>            
+            <Image
+                src="/cancel.svg"
+                width={35}
+                height={35}
+                alt=""
+                onClick={(e: React.FormEvent) => cancel(e)}
+            />
             <video ref={videoRef} className='absolute top-0 left-0 hidden'></video>
-            <canvas ref={canvasRef} className='flex justify-center'></canvas>
-            <canvas ref={qrCanvasRef} className='absolute top-0 left-0'></canvas>
-            {qrCode && <button className='bg-button w-fit' onClick={(e: React.FormEvent) => addCapsule(e)}>追加</button>}
+            <canvas ref={canvasRef} className={`flex justify-center ${cameraSwitch}`}></canvas>
+            {qrCode &&
+                <>
+                    <button onClick={(e: React.FormEvent) => addCapsule(e)}>追加</button>
+                </>
+            }                
         </div>
     )
 }
