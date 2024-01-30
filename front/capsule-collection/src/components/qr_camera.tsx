@@ -77,7 +77,7 @@ export default function Qr_Camera(props: any){
     },[])
 
     return(
-        <div>
+        <>
             <Image
                 src="/cancel.svg"
                 width={35}
@@ -85,13 +85,13 @@ export default function Qr_Camera(props: any){
                 alt=""
                 onClick={(e: React.FormEvent) => cancel(e)}
             />
-            <video ref={videoRef} autoPlay playsInline className={`flex justify-center ${cameraSwitch}`}></video>
+            <video ref={videoRef} autoPlay playsInline width={320} height={480} className={`flex justify-center ${cameraSwitch}`}></video>
             <canvas ref={canvasRef} className='hidden'></canvas>
             {qrCode &&
                 <>
                     <button onClick={(e: React.FormEvent) => addCapsule(e)}>追加</button>
                 </>
             }                
-        </div>
+        </>
     )
 }
