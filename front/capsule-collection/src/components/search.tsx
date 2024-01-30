@@ -9,17 +9,15 @@ import { useState } from "react"
 
 export default function Search(props: any) {
     const [categories, setCategories] = useState<any[]>([])
-    const [capsules, setCapsules] = useState<any[]>([])
     const [search, setSearch] = useState<boolean>(false)
     const [detail, setDetail] = useState<boolean>(false)
     const [selectCategory, setSelectCategory] = useState<any>({})
-    const [categoryId, setCategoryId] = useState<string>("")
     const [loading, setLoading] = useState<boolean>(false)
 
     return (
         <>
             {/* 検索のフォームのコンポーネント */}
-            <SearchInput setLoading={setLoading} setCategories={setCategories} setSearch={setSearch} />
+            <SearchInput setLoading={setLoading} setCategories={setCategories} setSearch={setSearch} setDetail={setDetail} />
             {/* 検索結果 */}
             {loading
             ?

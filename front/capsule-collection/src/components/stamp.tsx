@@ -12,7 +12,7 @@ type Props = {
 }
 
 export default function Stamp(props: Props) {
-    const getCapsuleImage = (image: string) => {
+    const getImage = (image: string) => {
         const { data } = supabase.storage.from('capsule').getPublicUrl(image)
         return data.publicUrl
     }
@@ -22,9 +22,7 @@ export default function Stamp(props: Props) {
                 <p className="w-full h-fit">スタンプ</p>
                 <div className="w-full h-full bg-headline rounded-2xl grid grid-cols-3 grid-rows-3 place-items-center overflow-y-auto hide-scroll-bar">
                     {props.capsule.map((cp: any, i: number) => (
-                        <div key={i} className="relative w-20 h-20 border-2 border-black rounded-full bg-background flex-none">
-                            <Image src={getCapsuleImage(cp.capsule.image)} layout="fill" objectFit="contain" alt="Icon" className="object-contain rounded-full" />
-                        </div>
+                        <Image key={i} src={getImage(cp.capsule.image)} width={80} height={80} objectFit='contain' alt="" className='object-contain rounded-full bg-white p-1' />
                     ))}
                 </div>
                 <AddIcon setActiveItem={props.setActiveItem} />

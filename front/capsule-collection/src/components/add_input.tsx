@@ -22,7 +22,6 @@ export default function Add_Input(props: Props) {
     const [addFlag, setAddFlag] = useState<boolean>(false);
     const [addCapsuleData, setAddCapsuleData] = useState<any[]>([]);
     const [selectCapsule, setSelectCapsule] = useState<boolean[]>([]);
-    const [finishAnimation, setFinishAnimation] = useState<boolean>(false);
     const [uid, setUid] = useState<string>("");
     const [loading, setLoading] = useState<boolean>(true);
 
@@ -66,6 +65,7 @@ export default function Add_Input(props: Props) {
         e.preventDefault();
         // if (selectCapsule.filter((val) => val === true).length === 0) return;
         const addCapsule = capsule.filter((val, i) => selectCapsule[i]);
+        console.log(addCapsule);
         setAddCapsuleData(addCapsule);
         // addCapsule.map(async (cp: any) => {
         //     const res = await axios.post("/api/userCapsule/create", {
@@ -104,7 +104,7 @@ export default function Add_Input(props: Props) {
                             {selectCapsule.map((val, i) => (
                                 <StampAnimation
                                     key={i}
-                                    capsule={addCapsuleData[i]}
+                                    capsule={[addCapsuleData][i]}
                                     categoryName={categoryName}
                                     capsuleLength={addCapsuleData.length}
                                     capsuleIndex={i}
@@ -113,7 +113,7 @@ export default function Add_Input(props: Props) {
                             ))}
                         </>
                     ) : (
-                        <div className="h-4/5">
+                        <div className="h-body">
                             <div className="w-full h-8 flex justify-between items-center">
                                 <Image
                                     src="/cancel.svg"
@@ -122,23 +122,15 @@ export default function Add_Input(props: Props) {
                                     alt=""
                                     onClick={(e: React.FormEvent) => cancel(e)}
                                 />
-                                <p
-                                    className="w-fit bg-button p-2 py-1 rounded-full text-white font-semibold"
-                                    onClick={(e: React.FormEvent) =>
-                                        addCapsule(e)
-                                    }
-                                >
-                                    追加
-                                    {selectCapsule.filter((val) => val === true).length}
-                                </p>
+                                {selectCapsule.filter((val) => val === true).length == 0 ?
+                                    null
+                                    :
+                                    <p className="w-fit bg-button p-2 py-1 rounded-full text-white font-semibold" onClick={(e: React.FormEvent) => addCapsule(e)}>
+                                        追加 {selectCapsule.filter((val) => val === true).length}
+                                    </p>
+                                }
                             </div>
                             <div>
-                                <label
-                                    className="block mb-2 text-sm font-medium text-gray-800"
-                                    htmlFor="countries"
-                                >
-                                    ガチャカテゴリ
-                                </label>
                                 {/* 取得したカテゴリを出力 */}
                                 <select
                                     id="categories"
@@ -163,16 +155,13 @@ export default function Add_Input(props: Props) {
                                 </select>
                             </div>
                             {/* 検索結果が出るところ */}
-                            <div className="w-full h-full my-4 p-3 bg-headline rounded-xl grid grid-cols-3 grid-rows-3 items-center justify-center overflow-y-auto hide-scroll-bar">
+                            <div className="w-full h-4/6 bg-headline rounded-xl grid grid-cols-3 grid-rows-2 items-center justify-center overflow-y-auto hide-scroll-bar">
                                 {capsule.map((cp: any, i: number) => (
-                                    <div
-                                        key={i}
-                                        className="w-full h-full flex flex-col items-center justify-center"
-                                    >
+                                    <div key={i} className="w-full h-1/3 flex flex-col items-center justify-center">
                                         <Image
                                             src={cp.image}
-                                            width={90}
-                                            height={90}
+                                            width={50}
+                                            height={50}
                                             objectFit="contain"
                                             alt=""
                                             className={`rounded-full bg-white border-2 ${

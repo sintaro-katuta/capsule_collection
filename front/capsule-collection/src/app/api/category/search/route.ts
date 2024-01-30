@@ -7,7 +7,7 @@ export const POST = async(req: Request, res: NextResponse) => {
         const categories = await prisma.category.findMany({
             where: {
                 name: {
-                    search: body.name
+                    contains: body.name
                 }
             },
             select:{

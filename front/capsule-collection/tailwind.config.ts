@@ -26,19 +26,19 @@ const config: Config = {
         'background': '#f2f7f5',
         'headline': '#00473e',
         'paragraph': '#475d5b',
-        'button': '#faae2b',
+        'button': '#FE8402',
       },
       textColor: {
         'background': '#f2f7f5',
         'headline': '#00473e',
         'paragraph': '#475d5b',
-        'button': '#faae2b',
+        'button': '#FE8402',
       },
       borderColor: {
         'background': '#f2f7f5',
         'headline': '#00473e',
         'paragraph': '#475d5b',
-        'button': '#faae2b',
+        'button': '#FE8402',
       },
       margin: {
         'x-origin': '120px'

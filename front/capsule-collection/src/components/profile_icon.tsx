@@ -114,7 +114,7 @@ export default function ProfileIcon(props: Props) {
                 <div className="w-full h-1/2 flex items-center justify-center">
                     <label>
                         <input className="hidden" type="file" accept='image/*' onChange={(e: React.FormEvent) => selectIcon(e)} />
-                        <Image src={props.icon} width={100} height={100} alt="Icon" className='p-1 w-28 h-28 rounded-full' />
+                        <Image src={props.icon} width={40} height={40} alt="Icon" className='p-1 w-28 h-28 rounded-ful' />
                     </label>
                 </div>
                 }
@@ -123,15 +123,14 @@ export default function ProfileIcon(props: Props) {
                     ?
                     <>
                         <input type="text" className='w-36 bg-background text-base border-b border-black outline-none' placeholder={props.name} onChange={(e: any) => setName(e.target.value)} />                                                
-                        <button className='w-fit px-2 bg-gray-300 rounded-xl text-white' onClick={() => setEdit_name(!edit_name)}>キャンセル</button>
-                        <button className='w-fit px-2 bg-button rounded-xl text-white' onClick={(e: React.FormEvent) => changeName(e)}>保存</button>
+                        <Image src="/cancel.svg" width={20} height={20} alt="Icon" onClick={() => setEdit_name(!edit_name)} />
+                        <Image src="/check.svg" width={20} height={20} alt="Icon" onClick={(e: React.FormEvent) => changeName(e)} />
                     </>
                     :
-                    <>
-                        <div className='w-16 h-full' />
-                        <p className="text-base text-center w-full">{props.name}</p>
-                        <button className='bg-button text-white w-16 rounded-xl font-medium' onClick={() => setEdit_name(!edit_name)}>編集</button>
-                    </>
+                    <div className='flex'>
+                        <p className="text-center text-lg">{props.name}</p>
+                        <Image src="/edit.svg" width={20} height={20} alt="Icon" onClick={() => setEdit_name(!edit_name)} />
+                    </div>
                     }
                 </div>
             </div>

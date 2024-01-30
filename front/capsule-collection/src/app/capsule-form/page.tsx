@@ -4,6 +4,7 @@ import Header from "@/components/header"
 import CategoryForm from "@/components/category_form"
 import CapsuleForm from "@/components/capsule_form"
 import Confirm from "@/components/capsule_confirm"
+import Qrcode from "@/components/qrcode";
 
 import axios from "axios"
 
@@ -12,9 +13,10 @@ import { supabase } from "@/supabase/client"
 import { useEffect, useState } from "react"
 
 export default function Form() {
-    const [form, setForm] = useState<string>('category')
+    const [form, setForm] = useState<string>('qr')
     const [category, setCategory] = useState<Object>({})
     const [capsules, setCapsules] = useState<Object>([])
+    const [id, setId] = useState<string | null>(null)
     const [admin, setAdmin] = useState<boolean>(false)
 
     useEffect(() => {
@@ -42,6 +44,7 @@ export default function Form() {
                         {form === 'category' && <CategoryForm setForm={setForm} setCategory={setCategory} category={category} /> }
                         {form === 'capsule' && <CapsuleForm setForm={setForm} setCapsules={setCapsules} category={category} capsules={capsules} /> }
                         {form === 'confirm' && <Confirm setForm={setForm} category={category} capsules={capsules} />}
+                        {form === 'qr' && <Qrcode />}
                     </form>
                 </div>
             }
