@@ -17,8 +17,8 @@ export default function Stamp(props: Props) {
         return data.publicUrl
     }
     return (
-        <div className="w-full h-3/4">
-            <div className="w-full h-4/5 justify-center items-center rounded-2xl">
+        <div className="w-full h-3/4 mt-5">
+            <div className="w-full h-5/6 justify-center items-center rounded-2xl">
                 <p className="w-full h-fit">スタンプ</p>
                 <div className="w-full h-full bg-headline rounded-2xl grid grid-cols-3 grid-rows-3 place-items-center overflow-y-auto hide-scroll-bar">
                     {props.capsule.map((cp: any, i: number) => (

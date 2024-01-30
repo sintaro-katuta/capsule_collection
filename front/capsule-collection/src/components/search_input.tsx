@@ -72,7 +72,7 @@ export default function SearchInput(props: Props) {
             </form>
             {filter &&
                 <>
-                    <div className="w-full h-4/5 pt-10 rounded-2xl flex flex-col gap-5 overflow-y-auto">
+                    <div className="w-full h-4/5 pt-10 rounded-2xl flex flex-col gap-5 overflow-y-auto hide-scroll-bar">
                         <Filter value={"カテゴリー"} filterList={categories.map((category: any) => {return category.name})} setFilter={setFilter} setCategories={props.setCategories} setSearch={props.setSearch} />
                         <Filter value={"価格"} filterList={priceList} setFilter={setFilter} setCategories={props.setCategories} setSearch={props.setSearch} />
                     </div>

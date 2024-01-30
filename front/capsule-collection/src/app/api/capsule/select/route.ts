@@ -15,7 +15,22 @@ export const POST = async(req: NextRequest, res: NextResponse) => {
         const body = await req.json()
     
         const capsule = await prisma.capsule.findMany({
-            where: { categoryId: body.id },
+            where: { id: body.id },
+            select: {
+                id: true,
+                name: true,
+                image: true,
+                category: {
+                    select: {
+                        id: true,
+                        name: true,
+                        price: true,
+                        image: true,
+                    }
+                }
+            
+            }
+
         })
         return NextResponse.json({ message: "Success", capsule }, { status: 200 })
     }catch(err){

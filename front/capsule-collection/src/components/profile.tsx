@@ -30,19 +30,10 @@ export default function Profile(props: any) {
 
     useEffect(() => {
         const getUser = async () => {
-            const auth: any = supabase.auth
             const { data: { user } } = await auth.getUser()
-            console.log(user)
-            
-
-        }
-        getUser()
-    },[])
-
-    useEffect(() => {
-        const getUser = async () => {
-            const { data: { user } } = await auth.getUser()
+            console.log("user")
             const { data, error } = await supabase.storage.from('user_icon').createSignedUrl(`${user.user_metadata.photoURL}`, 3600)
+            console.log("userIcon")
             if(data){
                 const userData = {
                     uid: user.id,
@@ -50,6 +41,7 @@ export default function Profile(props: any) {
                     icon: data.signedUrl
                 
                 }
+                console.log("userData")
                 const res = await axios.post('/api/user/select', { id: user.id })
                 if(res.data.user.role !== 'ADMIN'){
                     alert('管理者以外はアクセスできません')
@@ -57,8 +49,8 @@ export default function Profile(props: any) {
                 }else{
                     setAdmin(true)
                 }
+                console.log("Admin")
                 const capsuleRes = await axios.post('/api/userCapsule/select', { userId: user.id })
-                console.log(capsuleRes.data.capsule)
                 setUser(userData)
                 setCapsule(capsuleRes.data.capsule)
                 setLoading(false)

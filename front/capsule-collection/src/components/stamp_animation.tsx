@@ -1,12 +1,20 @@
 import { useState } from "react";
 import Image from "next/image";
+import { supabase } from "@/supabase/client";
 
 export default function StampAnimation(props: any) {
     const [animation, setAnimation] = useState("pulse")
     const [animationFlag, setAnimationFlag] = useState<boolean>(false)
 
+    console.log(props.capsule.category)
+
     function sleep(ms: number): Promise<void> {
         return new Promise(resolve => setTimeout(resolve, ms));
+    }
+
+    const getImage = (image: string) => {
+        const { data } = supabase.storage.from('capsule').getPublicUrl(image)
+        return data.publicUrl
     }
 
     const tapAnimation = async() => {
@@ -15,9 +23,7 @@ export default function StampAnimation(props: any) {
         setAnimationFlag(true)
         console.log(props.capsuleIndex)
         console.log(props.capsuleLength)
-        if(props.capsuleIndex == props.capsuleLength - 1){
-            props.setActiveItem("home")
-        }
+        props.setActiveItem("home")
     }
     return (
         <>
@@ -30,10 +36,10 @@ export default function StampAnimation(props: any) {
                         :
                         <>
                             <p className="bg-button text-headline text-3xl z-10 font-semibold text-center w-full h-fit py-3 rounded-2xl">{props.capsule.name}獲得！</p>
-                            <p className="font-semibold text-base">{props.categoryName}シリーズ</p>
+                            <p className="font-semibold text-base">{props.capsule.category.name}シリーズ</p>
                         </>
                     }
-                    <Image src={props.capsule.image} width={200} height={200} alt="" className={`rounded-full border-2 border-black mt-5 ${animation}`} onClick={() => tapAnimation()} />
+                    <Image src={getImage(props.capsule.image)} width={200} height={200} alt="" className={`rounded-full border-2 border-black mt-5 ${animation}`} onClick={() => tapAnimation()} />
                 </div>
             }
         </>

@@ -4,8 +4,8 @@ import Qrcode from "@/components/qrcode";
 import { useState } from "react"
 import Image from "next/image";
 
-export default function Admin(props: any) {
-    const [activeItem, setActiveItem] = useState<string>("")
+export default function Admin() {
+    const [activeItem, setActiveItem] = useState<string>("form")
     const [category, setCategory] = useState<Object>({})
     const [capsules, setCapsules] = useState<Object>([])
 
@@ -17,6 +17,7 @@ export default function Admin(props: any) {
             <div className="absolute top-5 -right-0 px-7">
                 <Image src="/info.svg" width={30} height={30} alt="" onClick={() => setActiveItem('form')} />
             </div>
+            {activeItem}
             <form className="w-full h-full px-7">
                 {activeItem === 'form' && <Form setActiveItem={setActiveItem} setCategory={setCategory} setCapsules={setCapsules} />}
                 {activeItem === 'qr' && <Qrcode />}

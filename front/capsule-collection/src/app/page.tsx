@@ -22,12 +22,8 @@ import MobileDetect from "mobile-detect"
 import { useEffect, useState } from "react"
 
 export default function App() {
-  // ユーザを情報の状態
-  const [currentUser, setCurrentUser] = useState<any>([])
   // 画面の状態 home: ホーム profile: プロフィール search: 検索 login: ログイン access_denied: pc以外の時の画面
   const [activeItem, setActiveItem] = useState<string>("")
-  // カプセルの状態
-  const [capsule, setCapsule]: any = useState<any>([])
   // ログイン情報の状態
   const [session, setSession] = useState(null)
   // ログイン情報を取得
@@ -47,18 +43,16 @@ export default function App() {
   useEffect(() => {
     // モバイルかタブレットか取得
     const md = new MobileDetect(navigator.userAgent)
-    console.log(md.mobile())
-    console.log(md.tablet())
     if (md.mobile() === null && md.tablet() === null) {
       setActiveItem("access_denied")
+    }
+  }, [activeItem])
+
+  useEffect(() => {
+    if(session){
+      setActiveItem("home")
     }else{
-      if (session){
-        // モバイルかタブレットなのでアクセス拒否画面
-        setActiveItem("home")
-      }else{
-        // ログインしていないユーザなのでログイン画面
-        setActiveItem("login")
-      }
+      setActiveItem("login")
     }
   }, [session])
 
