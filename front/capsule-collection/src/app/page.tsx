@@ -10,6 +10,7 @@ import AccessDenied from "@/components/access_denied"
 import Login from "@/components/login"
 import Add_Input from "@/components/add_input"
 import Qr_Camera from "@/components/qr_camera"
+import Admin from "@/components/admin"
 
 // Supabase関連
 import { supabase } from "@/supabase/client"
@@ -71,6 +72,7 @@ export default function App() {
               {activeItem === "search" && <Search />}
               {activeItem === "add_input" && <Add_Input setActiveItem={setActiveItem} />}
               {activeItem === "qr_camera" && <Qr_Camera setActiveItem={setActiveItem} />}
+              {activeItem === "admin" && <Admin setActiveItem={setActiveItem} />}
               {activeItem === "login" && <Login setActiveItem={setActiveItem} />}
               {activeItem === "access_denied" && <AccessDenied />}
         </div>

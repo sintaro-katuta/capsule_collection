@@ -13,6 +13,7 @@ import axios from "axios"
 export default function Profile(props: any) {
 
     const [user, setUser] = useState<any>({})
+    const [admin, setAdmin] = useState<boolean>(false)
     // ログインしているユーザの情報
     const [is_logout, setIs_logout] = useState<boolean>(false)
     const [loading, setLoading] = useState<boolean>(true)
@@ -29,6 +30,17 @@ export default function Profile(props: any) {
 
     useEffect(() => {
         const getUser = async () => {
+            const auth: any = supabase.auth
+            const { data: { user } } = await auth.getUser()
+            console.log(user)
+            
+
+        }
+        getUser()
+    },[])
+
+    useEffect(() => {
+        const getUser = async () => {
             const { data: { user } } = await auth.getUser()
             const { data, error } = await supabase.storage.from('user_icon').createSignedUrl(`${user.user_metadata.photoURL}`, 3600)
             if(data){
@@ -37,6 +49,13 @@ export default function Profile(props: any) {
                     name: user.user_metadata.name,
                     icon: data.signedUrl
                 
+                }
+                const res = await axios.post('/api/user/select', { id: user.id })
+                if(res.data.user.role !== 'ADMIN'){
+                    alert('管理者以外はアクセスできません')
+                    location.href = '/'
+                }else{
+                    setAdmin(true)
                 }
                 const capsuleRes = await axios.post('/api/userCapsule/select', { userId: user.id })
                 console.log(capsuleRes.data.capsule)
@@ -60,6 +79,11 @@ export default function Profile(props: any) {
                 <div className="absolute top-4 -right-0 px-7">
                     <p className="text-sm text-white bg-red-500 text-center font-semibold rounded-lg tracking-wide p-1 cursor-pointer" onClick={() => setIs_logout(true)}>ログアウト</p>
                 </div>
+                {admin &&
+                    <div className="absolute top-4 -left-0 px-7">
+                        <p className="text-sm text-white bg-fuchsia-400 text-center font-semibold rounded-lg tracking-wide p-1 cursor-pointer" onClick={() => props.setActiveItem("admin")}>管理画面</p>
+                    </div>
+                }
                 {is_logout &&
                     <div id="modal" className="block">
                         <div className="block w-full h-full bg-black/70 absolute top-0 left-0 z-30">

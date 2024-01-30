@@ -85,7 +85,7 @@ export default function Qr_Camera(props: any){
                 alt=""
                 onClick={(e: React.FormEvent) => cancel(e)}
             />
-            <video ref={videoRef} className={`flex justify-center ${cameraSwitch}`}></video>
+            <video ref={videoRef} autoPlay playsInline className={`flex justify-center ${cameraSwitch}`}></video>
             <canvas ref={canvasRef} className='hidden'></canvas>
             {qrCode &&
                 <>

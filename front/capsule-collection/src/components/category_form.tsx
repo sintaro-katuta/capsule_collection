@@ -78,7 +78,7 @@ export default function CategoryForm(props: any) {
             price: price,
             image: image
         })
-        props.setForm('capsule')
+        props.setActiveItem('capsule')
     }
 
     return ( 
