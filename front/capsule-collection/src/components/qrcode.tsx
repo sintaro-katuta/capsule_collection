@@ -27,7 +27,7 @@ export default function Qrcode(props: any) {
                     <option key={i} value={category.id}>{category.name}</option>
                 ))}
             </select>
-            <div className="flex gap-8">
+            <div className="grid grid-cols-2 gap-5 items-center justify-center">
                 {capsules.map((capsule: any, i: number) => (
                     <div key={i} className="flex flex-col items-center justify-center">
                         <QRCodeCanvas value={capsule.id} size={100} />

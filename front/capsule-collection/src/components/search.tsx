@@ -33,7 +33,7 @@ export default function Search(props: any) {
                                     </>
                                 :
                                     <>
-                                        <div className="w-full h-5/6 grid grid-cols-2 grid-rows-2 overflow-y-auto gap-3 my-4 hide-scroll-bar">
+                                        <div className="w-full h-5/6 grid grid-cols-1 grid-rows-2 overflow-y-auto gap-3 my-4 hide-scroll-bar">
                                             {categories.map((category: any, i: number) => (
                                                 <Category key={i} category={category} setDetail={setDetail} setSelectCategory={setSelectCategory}  />
                                             ))}

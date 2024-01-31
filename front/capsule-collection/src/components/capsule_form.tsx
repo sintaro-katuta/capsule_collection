@@ -93,7 +93,7 @@ export default function CapsuleForm(props: any) {
     function cancel(e: React.FormEvent) {
         e.preventDefault()
         props.setCapsules(capsules)
-        props.setForm('category')
+        props.setActiveItem('category')
     }
 
     function submit(e: React.FormEvent) {
@@ -104,7 +104,7 @@ export default function CapsuleForm(props: any) {
             return
         }
         props.setCapsules(capsules)
-        props.setForm('confirm')
+        props.setActiveItem('confirm')
     }
 
     return (
