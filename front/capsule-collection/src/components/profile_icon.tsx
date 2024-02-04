@@ -122,9 +122,9 @@ export default function ProfileIcon(props: Props) {
                     {edit_name
                     ?
                     <>
-                        <input type="text" className='w-36 bg-background text-base border-b border-black outline-none' placeholder={props.name} onChange={(e: any) => setName(e.target.value)} />                                                
-                        <Image src="/cancel.svg" width={20} height={20} alt="Icon" onClick={() => setEdit_name(!edit_name)} />
-                        <Image src="/check.svg" width={20} height={20} alt="Icon" onClick={(e: React.FormEvent) => changeName(e)} />
+                        <input type="text" className='w-fit bg-background text-base border-b border-black outline-none' placeholder={props.name} onChange={(e: any) => setName(e.target.value)} />                                                
+                        <Image src="/cancel.svg" width={35} height={35} alt="Icon" onClick={() => setEdit_name(!edit_name)} />
+                        <Image src="/check.svg" width={35} height={35} alt="Icon" onClick={(e: React.FormEvent) => changeName(e)} />
                     </>
                     :
                     <div className='flex'>
