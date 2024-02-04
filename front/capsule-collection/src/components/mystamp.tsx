@@ -1,8 +1,8 @@
 // ユーザの持っているカプセルを表示するコンポーネント
 // コンポーネント関連
-import Capsule from './capsule'
-import { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import axios from 'axios'
+import CapsuleDown from './capsule_down'
 
 type Props = {
     capsule: any[]
@@ -10,29 +10,38 @@ type Props = {
 
 export default function Mystamp(props: Props) {
     const [categories, setCategories] = useState<any>([])
-    const [countList, setCountList] = useState<any>([])
+    const [detail, setDetail] = useState<any>({})
+
+    const countCapsule = (id: string) => {
+        let count = 0
+        props.capsule.map((myCapsule: any) =>{
+            if(myCapsule.capsule.category.id === id){
+                count++
+            }
+        })
+        return count
+    }
+
+    const showCapsule = (id: string) => {
+        const capsule = props.capsule.filter((myCapsule: any) => myCapsule.capsule.category.id === id)
+        return capsule
+    }
     useEffect(() => {
         const getCategory = async () => {
             const res = await axios.get('/api/category/select')
-            const newcountList: any = []
-            res.data.categories.forEach((e: any) => {
-                e.capsule.forEach((c: any) => {
-                    const test = props.capsule.filter(cp => cp.capsule.id == c.id)
-                    newcountList.push(test.length)
-                })
-            })
+            if(res.data.categories.length === 0){
+                return
+            }
             setCategories(res.data.categories)
-            setCountList(newcountList)
         }
         getCategory()
-    }, [props])
+    }, [props.capsule])
     return (
-        <div className="h-1/2 flex flex-col items-start justify-start gap-5 overflow-y-auto">
+        <div className="w-full h-1/2 flex flex-col items-center justify-start gap-5 overflow-y-auto">
             {categories.map((category: any, i: number) => 
-                <div key={i} className='w-full h-1/6 flex items-center justify-between px-5 border border-black rounded-lg'>
-                    <p className='font-normal'>{category.name}</p>
-                    <p>{countList[i]}/{category.capsule.length}</p>
-                </div>
+            <>
+                <CapsuleDown key={i} value={category.name} mol={countCapsule(category.id)} deno={category.capsule.length} content={showCapsule(category.id)} index={i} />
+            </>
             )}
         </div>
     )
