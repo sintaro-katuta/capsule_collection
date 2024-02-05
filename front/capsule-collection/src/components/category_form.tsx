@@ -1,4 +1,3 @@
-import Image from 'next/image'
 import React, { useEffect, useState, createRef } from 'react'
 import "cropperjs/dist/cropper.css"
 import Cropper from 'react-cropper'
@@ -13,6 +12,7 @@ export default function CategoryForm(props: any) {
     const [image, setImage] = useState<any>({})
     const [error, setError] = useState<string>('')
     const [modal, setModal] = useState<boolean>(false)
+    const [crop, setCrop] = useState<any>()
 
     // オブジェクトが空かどうかを判定する関数(空ならtrueを返す)
     const isEmpty = (obj: Object) => {
@@ -68,19 +68,23 @@ export default function CategoryForm(props: any) {
             return
         }
         if(!cropperRef.current) return
-
-        const canvas = cropperRef.current.cropper.getCroppedCanvas()
-        const dataURL = canvas.toDataURL()
-        console.log(dataURL)
-
-        props.setCategory({
-            name: name,
-            price: price,
-            image: image
-        })
+        const imageUrl = URL.createObjectURL(image.file)
+        const croppedImage = cropperRef.current.cropper.getCroppedCanvas().toDataURL()
+        const file = await convertDataUrlToFile(croppedImage, "image.png", "image/png")
+        const imageData = {
+            file: file,
+            fileName: file.name,
+            url: imageUrl
+        }
+        console.log(file)
+        props.setCategory({ name, price, image: imageData })
         props.setActiveItem('capsule')
     }
 
+    const convertDataUrlToFile = async (dataUrl: string, fileName: string, type: "image/png" | "image/jpeg") => {
+        const blob = await (await fetch(dataUrl)).blob()
+        return new File([blob], fileName, { type })
+    }
     return ( 
         <>
             <div className="w-full h-full flex flex-col gap-8">
@@ -125,12 +129,8 @@ export default function CategoryForm(props: any) {
                         }
                     </div>
                 </div>
-                <div>
-                    <div className='h-6'>
-                        {error && <p className='text-base font-semibold bg-red-500 rounded-full text-white text-center'>{error}</p>}
-                    </div>
-                    <button className="bg-button text-white rounded-xl w-full h-10 font-bold" onClick={(e: React.FormEvent) => submit(e)}>次へ</button>
-                </div>
+                {error && <p className='text-sm font-semibold bg-red-500 rounded-full text-white text-center'>{error}</p>}
+                <button className="bg-button text-white rounded-xl w-full h-10 font-bold" onClick={(e: React.FormEvent) => submit(e)}>次へ</button>
             </div>
         </>
     )

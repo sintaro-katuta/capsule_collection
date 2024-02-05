@@ -9,20 +9,9 @@ export default function CapsuleConfirm(props: any) {
     const [uploading, setUploading] = useState<boolean>(false)
     const [uploaded, setUploaded] = useState<boolean>(false)
 
-    function test(e: any) {
-        e.preventDefault()
-        function sleep(time: number){
-            return new Promise(resolve => setTimeout(resolve, time))
-        }
-        props.capsules.map(async (capsule: any) => {
-            console.log(capsule)
-            await sleep(1000)
-        })
-    }
-
     function cancel(e: any) {
         e.preventDefault()
-        props.setForm('capsule')
+        props.setActiveItem('capsule')
     }
 
     async function submit(e: any) {
@@ -91,8 +80,7 @@ export default function CapsuleConfirm(props: any) {
                     {uploaded ? <p className="text-2xl">アップロード完了</p> :<p className="text-2xl">アップロード中...</p>}
                 </div>
                 :
-                <div className="w-full h-4/5 flex flex-col gap-3">
-                    <button onClick={(e: any) => test(e)}>Button</button>
+                <div className="w-full h-full flex flex-col gap-3">
                     <div className="w-full h-1/2 flex flex-col gap-3 justify-between">
                         <div className='flex flex-col gap-2'>
                             <p className="bg-headline text-white w-fit rounded-xl px-1 font-medium">シリーズ・カテゴリー</p>
@@ -100,7 +88,7 @@ export default function CapsuleConfirm(props: any) {
                         </div>
                         <div className='flex flex-col gap-2'>
                             <p className="bg-headline text-white w-fit rounded-xl px-1 font-medium">イメージ画像</p>
-                            <Image src={props.category.image.url} width={150} height={150} alt="Icon" className='object-contain rounded-lg' />
+                            <Image src={props.category.image.url} width={150} height={150} alt="Icon" className='object-contain rounded-full' />
                         </div>
                         <div className='flex flex-col gap-2'>
                             <p className='bg-headline text-white w-fit rounded-xl px-1 font-medium'>価格</p>
@@ -108,11 +96,11 @@ export default function CapsuleConfirm(props: any) {
                         </div>
                     </div>
                     <p className='bg-headline text-white w-fit rounded-xl px-1 font-medium'>カプセル</p>
-                    <div className='w-full h-1/6 bg-headline rounded-full overflow-x-auto'>
+                    <div className='w-full h-fit py-3 bg-headline rounded-full overflow-x-auto'>
                         <div className='flex justify-start items-center w-full h-full px-7 gap-5'>
                             {props.capsules.map((c: any, i: number) =>     
                                 <div key={i} className='flex flex-col items-center gap-1'>
-                                    <Image src={c.image.url} width={50} height={50} alt="Icon" className='object-contain rounded-lg' />
+                                    <Image src={c.image.url} width={50} height={50} alt="Icon" className='object-contain rounded-full' />
                                     <p className='text-base text-white'>{c.name}</p>
                                 </div>
                             )}

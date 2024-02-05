@@ -22,7 +22,7 @@ export default function Stamp(props: Props) {
                 <p className="w-full h-fit">スタンプ</p>
                 <div className="w-full h-full bg-headline rounded-2xl grid grid-cols-3 grid-rows-3 place-items-center overflow-y-auto hide-scroll-bar">
                     {props.capsule.map((cp: any, i: number) => (
-                        <Image key={i} src={getImage(cp.capsule.image)} width={80} height={80} objectFit='contain' alt="" className='object-contain rounded-full bg-white p-1' />
+                        <Image key={i} src={getImage(cp.capsule.image)} width={80} height={80} alt="" className='rounded-full border-2 border-white' />
                     ))}
                 </div>
                 <AddIcon setActiveItem={props.setActiveItem} />

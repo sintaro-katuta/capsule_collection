@@ -14,14 +14,12 @@ export default function RecentCapsule(props: Props) {
     }
     console.log(props.capsule)
     return (
-        <div className="h-1/4">
-            <p className="mb-3">最近のスタンプ</p>
-            <div className="bg-headline rounded-full mb-5 h-3/4">
-                <div className="flex justify-start items-center h-full overflow-x-auto mx-2 p-2 gap-7 rounded-full hide-scroll-bar">
-                    {props.capsule.map((cp: any, i: number) => (
-                        <Image key={i} src={getImage(cp.capsule.image)} width={80} height={80} objectFit='contain' alt="" className='object-contain rounded-full bg-white p-1' />
-                    ))}
-                </div>
+        <div className="w-full h-1/4">
+            {/* <p className="mb-3">最近のスタンプ</p> */}
+            <div className="px-5 bg-headline flex justify-start items-center gap-8 h-3/4 overflow-x-auto rounded-full hide-scroll-bar">
+                {props.capsule.map((cp: any, i: number) => (
+                    <Image key={i} src={getImage(cp.capsule.image)} width={80} height={80} alt="" objectFit="contain" className='flex-none rounded-full border-2 border-white' />
+                ))}
             </div>
         </div>
     )

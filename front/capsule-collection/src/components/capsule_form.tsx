@@ -1,11 +1,15 @@
 import Image from 'next/image'
 import React, { useEffect, useState } from 'react'
+import "cropperjs/dist/cropper.css"
+import Cropper from 'react-cropper'
+import { ReactCropperElement } from 'react-cropper'
 
 export default function CapsuleForm(props: any) {
     const [name, setName] = useState<string>('')
     const [image, setImage] = useState<any>({})
     const [capsules, setCapsules] = useState<any>([])
     const [error, setError] = useState<string>('')
+    const cropperRef = React.createRef<ReactCropperElement>()
 
     const isEmpty = (obj: Object) => {
         return Object.keys(obj).length === 0
@@ -57,7 +61,7 @@ export default function CapsuleForm(props: any) {
         e.target.value = ''
     }
 
-    function addCapsule() {
+    const addCapsule = async () => {
         setError('')
         const errorMessages = ''
         if(!name){
@@ -72,9 +76,19 @@ export default function CapsuleForm(props: any) {
             setError('同じファイル名の画像が存在します')
             return
         }
+        if(!cropperRef.current) return
+        const imageUrl = URL.createObjectURL(image.file)
+        const croppedImage = cropperRef.current.cropper.getCroppedCanvas().toDataURL()
+        const file = await convertDataUrlToFile(croppedImage, "image.png", "image/png")
+        const imageData = {
+            file: file,
+            fileName: file.name,
+            url: croppedImage
+        }
+        console.log(file)
         const capsuleData = {
             name: name,
-            image: image
+            image: imageData
         }
 
         setName('')
@@ -82,7 +96,12 @@ export default function CapsuleForm(props: any) {
         setCapsules([...capsules, capsuleData])
     }
 
-    function deleteCapsule(index: number) {
+    const convertDataUrlToFile = async (dataUrl: string, fileName: string, type: "image/png" | "image/jpeg") => {
+        const blob = await (await fetch(dataUrl)).blob()
+        return new File([blob], fileName, { type })
+    }
+
+    const deleteCapsule = (index: number) => {
         const newCapsules = [...capsules]
         console.log(newCapsules)
         newCapsules.splice(index, 1)
@@ -90,7 +109,7 @@ export default function CapsuleForm(props: any) {
         setCapsules(newCapsules)
     }
 
-    function cancel(e: React.FormEvent) {
+    const cancel = (e: React.FormEvent) => {
         e.preventDefault()
         props.setCapsules(capsules)
         props.setActiveItem('category')
@@ -110,17 +129,12 @@ export default function CapsuleForm(props: any) {
     return (
         <>
             
-            <div className="w-full h-full flex flex-col gap-4">                
-                <div className="flex items-center justify-center w-full h-8 bg-headline rounded-full">
+            <div className="w-full h-full flex flex-col gap-4 justify-between">                
+                <div className="flex items-center justify-center w-full h-fit bg-headline rounded-full">
                     <p className=" text-white font-medium">{props.category.name}シリーズ</p>
                 </div>
-                <div className="w-full h-3/4 flex flex-col gap-5">
+                {/* <div className="w-full h-3/4 flex flex-col gap-5"> */}
                     <div className='w-full h-2/4 bg-headline rounded-2xl flex items-center justify-center p-3 gap-2'>
-                        {!isEmpty(image) && 
-                            <div className="w-1/3 h-full flex items-center justify-center">
-                                <Image src={image.url} width={100} height={100} alt="" className='rounded-lg' />
-                            </div>
-                        }    
                         <div className="w-full h-full flex flex-col items-center justify-center gap-3">
                             <div className='w-full flex'>
                                 <input type="text" className='w-full h-8 rounded-full px-5 outline-none' placeholder='名前' id="name" value={name} onChange={(e: any) => setName(e.target.value)} />    
@@ -129,6 +143,25 @@ export default function CapsuleForm(props: any) {
                                 <input type="file" accept="image/*" className='hidden' onChange={(e: React.FormEvent) => selectImage(e)} />
                                 <p>ファイルの選択</p>
                             </label>
+                            {!isEmpty(image)
+                            ?                             
+                                <Cropper
+                                    src={image.url}
+                                    width={200}
+                                    height={200}
+                                    ref={cropperRef}
+                                    aspectRatio={1}
+                                    guides={false}
+                                    viewMode={1}
+                                    minCropBoxHeight={10}
+                                    minCropBoxWidth={10}
+                                    background={false}
+                                    responsive={true}
+                                    checkOrientation={false}
+                                    autoCropArea={0.5} // Adjust the value to resize the cropped area
+                                />
+                            : <p className='text-white'>選択した画像が表示されます</p>
+                            }
                             <div className='w-full h-8 bg-button flex justify-center items-center rounded-full cursor-pointer' onClick={() => addCapsule()}>
                                 <p className='text-white'>追加</p>
                             </div>
@@ -150,7 +183,7 @@ export default function CapsuleForm(props: any) {
                         <button className='w-1/2 h-12 bg-gray-300 rounded-full text-white' onClick={(e: any) => cancel(e)}>戻る</button>
                         <button className='w-1/2 h-12 bg-button rounded-full text-white' onClick={(e: any) => submit(e)}>確認</button>
                     </div>
-                </div>
+                {/* </div> */}
             </div>
         </>
     )
