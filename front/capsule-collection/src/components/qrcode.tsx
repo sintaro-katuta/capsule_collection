@@ -27,12 +27,13 @@ export default function Qrcode(props: any) {
                     <option key={i} value={category.id}>{category.name}</option>
                 ))}
             </select>
-            <div className="flex gap-8">
+            <div className="flex flex-col gap-5 overflow-y-auto hide-scroll-bar">
                 {capsules.map((capsule: any, i: number) => (
-                    <div key={i} className="flex flex-col items-center justify-center">
-                        <QRCodeCanvas value={capsule.id} size={100} />
-                        <p>{capsule.name}</p>
-                    </div>
+                    <>
+                        <QRCodeCanvas value={capsule.id} size={200} />
+                        <p className="text-center">{capsule.name}</p>
+                    </>
+                    
                 ))}
             </div>
         </div>

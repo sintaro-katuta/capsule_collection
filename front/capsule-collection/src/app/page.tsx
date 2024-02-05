@@ -9,6 +9,7 @@ import Search from "@/components/search"
 import AccessDenied from "@/components/access_denied"
 import Login from "@/components/login"
 import Add_Input from "@/components/add_input"
+import Install from "@/components/install"
 import Qr_Camera from "@/components/qr_camera"
 import Admin from "@/components/admin"
 
@@ -43,6 +44,10 @@ export default function App() {
   useEffect(() => {
     // モバイルかタブレットか取得
     const md = new MobileDetect(navigator.userAgent)
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('sw.js')
+        .then((reg) => { console.log('SW registered.', reg); });
+    }
     if (md.mobile() === null && md.tablet() === null) {
       setActiveItem("access_denied")
     }
@@ -52,7 +57,7 @@ export default function App() {
     if(session){
       setActiveItem("home")
     }else{
-      setActiveItem("login")
+      setActiveItem("install")
     }
   }, [session])
 
@@ -66,6 +71,7 @@ export default function App() {
               {activeItem === "search" && <Search />}
               {activeItem === "add_input" && <Add_Input setActiveItem={setActiveItem} />}
               {activeItem === "qr_camera" && <Qr_Camera setActiveItem={setActiveItem} />}
+              {activeItem == "install" && <Install />}
               {activeItem === "admin" && <Admin />}
               {activeItem === "login" && <Login setActiveItem={setActiveItem} />}
               {activeItem === "access_denied" && <AccessDenied />}

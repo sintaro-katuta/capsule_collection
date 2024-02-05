@@ -17,7 +17,6 @@ export default function Admin() {
             <div className="absolute top-5 -right-0 px-7">
                 <Image src="/info.svg" width={30} height={30} alt="" onClick={() => setActiveItem('form')} />
             </div>
-            {activeItem}
             <form className="w-full h-full px-7">
                 {activeItem === 'form' && <Form setActiveItem={setActiveItem} setCategory={setCategory} setCapsules={setCapsules} />}
                 {activeItem === 'qr' && <Qrcode />}
