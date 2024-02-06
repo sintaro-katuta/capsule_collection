@@ -39,7 +39,7 @@ export default function Qr_Camera(props: any){
                 if (imageData) {
                     const code = jsQR(imageData.data, contentWidth, contentHeight)
                     if (code) {
-                        if(code.data || "https://capsule-collection.vercel.app/*" || "http://localhost:3001/"){
+                        if(code.data !== "https://*" || "http://"){
                             setCameraSwitch("hidden")
                             console.log(props.uid)
                             const res = await axios.post('/api/capsule/select', { id: code.data })
@@ -74,7 +74,7 @@ export default function Qr_Camera(props: any){
         .catch(err => {
             console.log(err)
         })
-    },[contentWidth, contentHeight])
+    },[contentWidth, contentHeight, props.uid])
 
     return(
         <>
