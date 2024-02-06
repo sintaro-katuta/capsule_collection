@@ -5,6 +5,8 @@ import React, { useState } from "react";
 // Supabase関連
 import { supabase } from "@/supabase/client";
 
+import Install from "@/components/install";
+
 type Props = {
     setActiveItem: any;
 };
@@ -108,6 +110,7 @@ export default function Login(props: Props) {
                             onChange={(e: any) => setPassword(e.target.value)}
                         />
                     </div>
+                    <Install />
                     <div>
                         <button
                             className="w-40 h-12 rounded-xl bg-button mb-5"
@@ -166,6 +169,7 @@ export default function Login(props: Props) {
                                     }
                                 />
                             </div>
+                            <Install />
                             <div>
                                 <button
                                     className="w-40 h-12 rounded-xl bg-button mb-5"

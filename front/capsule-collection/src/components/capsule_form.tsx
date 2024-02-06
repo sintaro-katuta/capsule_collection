@@ -79,18 +79,17 @@ export default function CapsuleForm(props: any) {
         if(!cropperRef.current) return
         const imageUrl = URL.createObjectURL(image.file)
         const croppedImage = cropperRef.current.cropper.getCroppedCanvas().toDataURL()
-        const file = await convertDataUrlToFile(croppedImage, "image.png", "image/png")
+        const file = await convertDataUrlToFile(croppedImage, image.fileName, "image/png")
         const imageData = {
             file: file,
             fileName: file.name,
             url: croppedImage
         }
-        console.log(file)
         const capsuleData = {
             name: name,
             image: imageData
         }
-
+        console.log(capsuleData)
         setName('')
         setImage({})
         setCapsules([...capsules, capsuleData])
