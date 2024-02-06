@@ -7,7 +7,7 @@
     "name": "\u30ab\u30d7\u30b3\u30ec",
     "short_name": "\u30ab\u30d7\u30b3\u30ec",
     "description": "\u30ab\u30d7\u30b3\u30ec",
-    "orientation": "portrait-primary",
+    "orientation": "portrait",
     "icons": [
         {
             "src": "/icon-192x192.png",
