@@ -64,22 +64,7 @@ export default function Login(props: Props) {
             setError(error.message);
             return;
         }
-        const res = await fetch("/api/user/create", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                id: data.user.id,
-                email: data.user.email,
-                username: "ゲスト",
-            }),
-        });
-        if (res.status === 200) {
-            setIs_Signin(true);
-        } else {
-            setError("登録に失敗しました");
-        }
+        const res = await axios.post('/api/user/create', { id: data.user.id, email: data.user.email, username: "ゲスト" })
     };
 
     return (
