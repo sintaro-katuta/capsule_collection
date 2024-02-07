@@ -28,32 +28,32 @@ export default function Profile(props: any) {
         auth.signOut(auth)
     }
 
-    useEffect(() => {
-        const getUser = async () => {
-            const { data: { user } } = await auth.getUser()
-            console.log("user")
-            const { data, error } = await supabase.storage.from('user_icon').createSignedUrl(`${user.user_metadata.photoURL}`, 3600)
-            console.log("userIcon")
-            if(data){
-                const userData = {
-                    uid: user.id,
-                    name: user.user_metadata.name,
-                    icon: data.signedUrl
+    // useEffect(() => {
+    //     const getUser = async () => {
+    //         const { data: { user } } = await auth.getUser()
+    //         console.log("user")
+    //         const { data, error } = await supabase.storage.from('user_icon').createSignedUrl(`${user.user_metadata.photoURL}`, 3600)
+    //         console.log("userIcon")
+    //         if(data){
+    //             const userData = {
+    //                 uid: user.id,
+    //                 name: user.user_metadata.name,
+    //                 icon: data.signedUrl
                 
-                }
-                const res = await axios.post('/api/user/select', { id: user.id })
-                if(res.data.user.role == 'ADMIN'){
-                    setAdmin(true)
-                }
-                // const capsuleRes = await axios.post('/api/userCapsule/select', { userId: user.id })
-                // setUser(userData)
-                // setCapsule(capsuleRes.data.capsule)
-                setLoading(false)
-            }
-        }
-        setLoading(true)
-        getUser()
-    }, [auth, props])
+    //             }
+    //             const res = await axios.post('/api/user/select', { id: user.id })
+    //             if(res.data.user.role == 'ADMIN'){
+    //                 setAdmin(true)
+    //             }
+    //             const capsuleRes = await axios.post('/api/userCapsule/select', { userId: user.id })
+    //             setUser(userData)
+    //             setCapsule(capsuleRes.data.capsule)
+    //             setLoading(false)
+    //         }
+    //     }
+    //     setLoading(true)
+    //     getUser()
+    // }, [auth, props])
     
 
     return (
