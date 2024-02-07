@@ -45,9 +45,9 @@ export default function Profile(props: any) {
                 if(res.data.user.role == 'ADMIN'){
                     setAdmin(true)
                 }
-                const capsuleRes = await axios.post('/api/userCapsule/select', { userId: user.id })
-                setUser(userData)
-                setCapsule(capsuleRes.data.capsule)
+                // const capsuleRes = await axios.post('/api/userCapsule/select', { userId: user.id })
+                // setUser(userData)
+                // setCapsule(capsuleRes.data.capsule)
                 setLoading(false)
             }
         }
