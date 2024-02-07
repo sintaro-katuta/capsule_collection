@@ -41,15 +41,10 @@ export default function Profile(props: any) {
                     icon: data.signedUrl
                 
                 }
-                console.log("userData")
                 const res = await axios.post('/api/user/select', { id: user.id })
-                if(res.data.user.role !== 'ADMIN'){
-                    alert('管理者以外はアクセスできません')
-                    location.href = '/'
-                }else{
+                if(res.data.user.role == 'ADMIN'){
                     setAdmin(true)
                 }
-                console.log("Admin")
                 const capsuleRes = await axios.post('/api/userCapsule/select', { userId: user.id })
                 setUser(userData)
                 setCapsule(capsuleRes.data.capsule)
