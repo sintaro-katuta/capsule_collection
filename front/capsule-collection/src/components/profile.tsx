@@ -16,7 +16,7 @@ export default function Profile(props: any) {
     const [admin, setAdmin] = useState<boolean>(false)
     // ログインしているユーザの情報
     const [is_logout, setIs_logout] = useState<boolean>(false)
-    const [loading, setLoading] = useState<boolean>(true)
+    const [loading, setLoading] = useState<boolean>(false)
     const [capsule, setCapsule] = useState<any>([])
 
     const auth: any = supabase.auth
