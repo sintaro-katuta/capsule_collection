@@ -7,7 +7,7 @@ export const POST = async(req: NextRequest, res: NextResponse) => {
     
         const capsule = await prisma.userCapsule.findMany({
             orderBy: { capsule: { name: "asc" } },
-            where: { user: body.id },
+            where: { userId: body.id },
             select: {
                 capsule: {
                     select: {
