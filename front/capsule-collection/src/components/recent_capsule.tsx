@@ -18,7 +18,7 @@ export default function RecentCapsule(props: Props) {
             <p className="mb-3">最近のスタンプ</p>
             <div className="px-5 bg-headline flex justify-start items-center gap-8 h-3/4 overflow-x-auto rounded-full hide-scroll-bar">
                 {props.capsule.map((cp: any, i: number) => (
-                    <Image key={i} src={getImage(cp.capsule.image)} width={80} height={80} alt="" objectFit="contain" className='flex-none rounded-full border-2 border-white' />
+                    <Image key={i} src={getImage(cp.capsule.image)} width={80} height={80} alt="" objectFit="contain" className='flex-none rounded-full bg-white' />
                 ))}
             </div>
         </div>

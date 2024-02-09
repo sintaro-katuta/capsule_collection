@@ -51,7 +51,7 @@ export default function App() {
 
   useEffect(() => {
     if(session){
-      setActiveItem("install")
+      setActiveItem("home")
     }else{
       setActiveItem("login")
     }

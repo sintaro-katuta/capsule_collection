@@ -39,16 +39,14 @@ export default function Qr_Camera(props: any){
                 if (imageData) {
                     const code = jsQR(imageData.data, contentWidth, contentHeight)
                     if (code) {
-                        if(code.data !== "https://*" || "http://"){
-                            setCameraSwitch("hidden")
-                            console.log(props.uid)
-                            const res = await axios.post('/api/capsule/select', { id: code.data })
-                            setCapsule(res.data.capsule)
-                            const auth: any = supabase.auth;
-                            const { data: { user }} = await auth.getUser();
-                            const userCapsuleRes = await axios.post('/api/userCapsule/create', { userId: user.id, capsuleId: res.data.capsule[0].id})
-                            console.log(userCapsuleRes)
-                        }
+                        setCameraSwitch("hidden")
+                        console.log(props.uid)
+                        const res = await axios.post('/api/capsule/select', { id: code.data })
+                        setCapsule(res.data.capsule)
+                        const auth: any = supabase.auth;
+                        const { data: { user }} = await auth.getUser();
+                        const userCapsuleRes = await axios.post('/api/userCapsule/create', { userId: user.id, capsuleId: res.data.capsule[0].id})
+                        console.log(userCapsuleRes)
                     }
                 }
                 setTimeout(()=>{ checkImage() }, 200);
