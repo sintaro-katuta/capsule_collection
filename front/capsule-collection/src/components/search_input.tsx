@@ -1,13 +1,9 @@
 // 検索のフォームのコンポーネント
-
 // Components関連
-import CheckBox from "./checkbox"
 import Filter from "./filter"
 // Next関連
 import Image from "next/image"
 import axios from "axios"
-import { supabase } from "@/supabase/client"
-
 // React関連
 import React, { useEffect, useState } from 'react'
 
@@ -19,8 +15,11 @@ type Props = {
 }
 
 export default function SearchInput(props: Props) {
-    const [filter, setFilter] = useState<boolean>(false)// フィルターの表示
+    // フィルター表示のステート
+    const [filter, setFilter] = useState<boolean>(false)
+    // 全カテゴリーのステート
     const [categories, setCategories] = useState<any>([])
+    // カテゴリーの価格のリスト
     const priceList: number[] = [200, 300, 400, 500, 600, 800, 1000, 1500, 2000, 2500]
     // inputの変更時の処理
     const chageHandle = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -31,12 +30,11 @@ export default function SearchInput(props: Props) {
         props.setSearch(false)
         // フィルターを閉じる
         setFilter(false)
-        // 検索の処理
         // 検索ワードに空白を&に変換
         const searchWord: string = e.target.value
         // カテゴリーの名前で検索
         const searchRes = await axios.post('/api/category/search', { name : searchWord })
-
+        // 検索結果をカテゴリーにセット
         props.setCategories(searchRes.data.categories)
         // 検索結果の表示
         props.setSearch(true)
@@ -79,6 +77,5 @@ export default function SearchInput(props: Props) {
                 </>
             }
         </>
-
     )
 }

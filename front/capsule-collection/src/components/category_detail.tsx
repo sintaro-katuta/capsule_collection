@@ -1,6 +1,5 @@
-import axios from 'axios'
+// カテゴリーの詳細を表示するコンポーネント
 import Image from 'next/image'
-import { useState, useEffect } from 'react'
 import { supabase } from '@/supabase/client'
 
 type Props = {
@@ -10,18 +9,15 @@ type Props = {
 }
 
 export default function CategoryDetail(props: Props){
+    // 前の画面に戻る関数
     const cansel = () => {
         props.setDetail(false)
     }
+    // supabaseのstaroageから画像を取得する関数
     const getImage = (image: string) => {
         const { data } = supabase.storage.from('capsule').getPublicUrl(image)
         return data.publicUrl
     }
-    useEffect(() => {
-        props.setLoading(true)
-        console.log(props.selectCategory.capsule)
-        props.setLoading(false)
-    },[props])
     return(
         <>
             <div className="w-full h-5/6 my-4">

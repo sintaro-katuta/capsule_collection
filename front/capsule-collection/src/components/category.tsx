@@ -1,9 +1,6 @@
-import Image from "next/image";
-import React, { useState, useEffect } from "react";
-import axios from "axios";
-import { supabase } from "@/supabase/client";
-import { get } from "http";
-import { GetServerSideProps } from "next";
+// カテゴリーのコンポーネント
+import Image from "next/image"
+import { supabase } from "@/supabase/client"
 
 type Props = {
     category: {
@@ -19,7 +16,9 @@ type Props = {
     setDetail: React.Dispatch<React.SetStateAction<boolean>>
     setSelectCategory: React.Dispatch<React.SetStateAction<any>>
 }
+
 export default function Category(props: Props){
+    // 詳細画面に遷移する関数
     const toDetail = () => {
         console.log(props.category)
         // 詳細画面で表示するカテゴリーのIDをセット
@@ -27,6 +26,7 @@ export default function Category(props: Props){
         // 詳細画面に遷移
         props.setDetail(true)
     }
+    // supabaseのstorageから画像を取得する関数
     const getImage = (image: string) => {
         const { data } = supabase.storage.from('category').getPublicUrl(image)
         return data.publicUrl

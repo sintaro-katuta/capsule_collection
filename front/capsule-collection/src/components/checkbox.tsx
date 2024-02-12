@@ -1,6 +1,5 @@
 import React from "react"
 import { useState } from "react"
-import Image from "next/image"
 
 type Props = {
     value: string | number
@@ -12,9 +11,9 @@ type Props = {
 }
 
 export default function CheckBox(props: Props){
-
+    // チェックボックスのチェックの有無を管理するステート
     const [checked, setChecked] = useState(false)
-
+    // チェックボックスのチェックが変更された時の関数
     const changeHandle = (e: any) => {
         setChecked(e.target.checked)
         if(props.type === "category"){
@@ -33,7 +32,6 @@ export default function CheckBox(props: Props){
             }
         }
     }
-
     return(
         <>
             {checked

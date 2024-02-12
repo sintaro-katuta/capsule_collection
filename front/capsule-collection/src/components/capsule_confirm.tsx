@@ -1,19 +1,27 @@
+// カプセルの登録確認画面
 import axios from 'axios'
 import Image from 'next/image'
-import { useState } from 'react'
+import React, { useState } from 'react'
 
 import { supabase } from '@/supabase/client'
 
-export default function CapsuleConfirm(props: any) {
+type Props = {
+    setActiveItem: React.Dispatch<React.SetStateAction<string>>
+    category: any
+    capsules: any
+}
 
+export default function CapsuleConfirm(props: Props) {
+    // アップロード中のステート
     const [uploading, setUploading] = useState<boolean>(false)
+    // アップロード完了のステート
     const [uploaded, setUploaded] = useState<boolean>(false)
-
+    // 一つ前の画面に戻る関数
     function cancel(e: any) {
         e.preventDefault()
         props.setActiveItem('capsule')
     }
-
+    // 確認後のデータをデータベースに登録する関数
     async function submit(e: any) {
         e.preventDefault()
         setUploading(true)
@@ -74,9 +82,11 @@ export default function CapsuleConfirm(props: any) {
 
     return(
         <>
+            {/* true: アップロード false: 確認画面 */}
             {uploading
                 ?
                 <div className="w-full h-4/5 flex justify-center items-center">
+                    {/* true: アップロード完了 false: アップロード中 */}
                     {uploaded ? <p className="text-2xl">アップロード完了</p> :<p className="text-2xl">アップロード中...</p>}
                 </div>
                 :

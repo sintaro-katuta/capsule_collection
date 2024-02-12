@@ -8,8 +8,6 @@ import Profile from "@/components/profile"
 import Search from "@/components/search"
 import AccessDenied from "@/components/access_denied"
 import Login from "@/components/login"
-import Add_Input from "@/components/add_input"
-import Install from "@/components/install"
 import Qr_Camera from "@/components/qr_camera"
 import Admin from "@/components/admin"
 
@@ -65,7 +63,6 @@ export default function App() {
               {activeItem === "home" && <Home setActiveItem={setActiveItem} />}
               {activeItem === "profile" && <Profile setActiveItem={setActiveItem} />}
               {activeItem === "search" && <Search />}
-              {activeItem === "add_input" && <Add_Input setActiveItem={setActiveItem} />}
               {activeItem === "qr_camera" && <Qr_Camera setActiveItem={setActiveItem} />}
               {activeItem === "admin" && <Admin />}
               {activeItem === "login" && <Login setActiveItem={setActiveItem} />}

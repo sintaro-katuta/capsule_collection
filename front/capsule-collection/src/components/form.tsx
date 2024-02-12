@@ -3,12 +3,22 @@ import CategoryForm from "@/components/category_form"
 import CapsuleForm from "@/components/capsule_form"
 import Confirm from "@/components/capsule_confirm"
 
-import { useState } from "react"
+import React, { useEffect, useState } from "react"
 
-export default function Form(props: any) {
+type Props = {
+    setActiveItem: React.Dispatch<React.SetStateAction<string>>
+}
+
+export default function Form(props: Props) {
     const [activeItem, setActiveItem] = useState<string>("category")
     const [category, setCategory] = useState<Object>({})
     const [capsules, setCapsules] = useState<Object>([])
+
+    useEffect(() => {
+        if(activeItem === 'complete'){
+            props.setActiveItem('admin')
+        }
+    }, [props, activeItem])
 
     return (
         <>

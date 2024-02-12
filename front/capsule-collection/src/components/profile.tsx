@@ -27,7 +27,6 @@ export default function Profile(props: any) {
         // FirebaseAuthでログアウト
         auth.signOut(auth)
     }
-
     useEffect(() => {
         const getUser = async () => {
             const { data: { user } } = await auth.getUser()
@@ -55,7 +54,6 @@ export default function Profile(props: any) {
         getUser()
     }, [auth, props])
     
-
     return (
         <>
             {loading

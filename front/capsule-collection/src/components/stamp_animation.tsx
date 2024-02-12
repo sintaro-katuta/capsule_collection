@@ -3,26 +3,24 @@ import Image from "next/image";
 import { supabase } from "@/supabase/client";
 
 export default function StampAnimation(props: any) {
+    // アニメショーンの状態のステート
     const [animation, setAnimation] = useState("pulse")
+    // アニメショーンが終わったかどうかのステート
     const [animationFlag, setAnimationFlag] = useState<boolean>(false)
-
-    console.log(props.capsule.category)
-
-    function sleep(ms: number): Promise<void> {
+    // 待機時間を設定する関数
+    const sleep = (ms: number): Promise<void> => {
         return new Promise(resolve => setTimeout(resolve, ms));
     }
-
+    // supabaseのstorageから画像を取得する関数
     const getImage = (image: string) => {
         const { data } = supabase.storage.from('capsule').getPublicUrl(image)
         return data.publicUrl
     }
-
+    // タップアニメーションを設定する関数
     const tapAnimation = async() => {
         setAnimation("slam-top")
         await sleep(1500)
         setAnimationFlag(true)
-        console.log(props.capsuleIndex)
-        console.log(props.capsuleLength)
         props.setActiveItem("home")
     }
     return (

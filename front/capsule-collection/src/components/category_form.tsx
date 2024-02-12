@@ -1,24 +1,27 @@
-import React, { useEffect, useState, createRef } from 'react'
+// カテゴリーのフォームを作成するコンポーネント
+import { useEffect, useState, createRef } from 'react'
 import "cropperjs/dist/cropper.css"
 import Cropper from 'react-cropper'
 import { ReactCropperElement } from 'react-cropper'
 
 export default function CategoryForm(props: any) {
+    // 画像のりサイズを変更するためのライブラリのリファレンス
     const cropperRef = createRef<ReactCropperElement>()
+    // ガチャの価格のリスト
     const priceList: number[] = [200, 300, 400, 500, 600, 800, 1000, 1500, 2000, 2500]
-
+    // カテゴリーの名前を入力するためのステート
     const [name, setName] = useState<string>('')
+    // カテゴリーの価格を入力するためのステート
     const [price, setPrice] = useState<number>(200)
+    // カテゴリーの画像のステート
     const [image, setImage] = useState<any>({})
+    // エラーメッセージを表示するためのステート
     const [error, setError] = useState<string>('')
-    const [modal, setModal] = useState<boolean>(false)
-    const [crop, setCrop] = useState<any>()
-
     // オブジェクトが空かどうかを判定する関数(空ならtrueを返す)
     const isEmpty = (obj: Object) => {
         return Object.keys(obj).length === 0
     }
-
+    // 前の画面で入力した情報をステートに格納
     useEffect(() => {
         if(!isEmpty(props.category)){
             setName(props.category.name)
@@ -26,8 +29,8 @@ export default function CategoryForm(props: any) {
             setImage(props.category.image)
         }
     }, [props])
-
-    function selectImage(e: any) {
+    // カテゴリーの画像を選択する関数
+    const selectImage = (e: any) => {
         setError('')
         const maxSize = 10485760; // 1MB
         const IMAGE_TYPES = ['image/png', 'image/jpeg', 'image/svg+xml']
@@ -56,8 +59,8 @@ export default function CategoryForm(props: any) {
         }
         setImage(fileData)
     }
-
-    async function submit(e: React.FormEvent) {
+    // カテゴリーの情報を登録する関数
+    const submit = async (e: React.FormEvent) => {
         e.preventDefault()
         if(!name){
             setError('シリーズ・カテゴリーを入力してください')
@@ -76,11 +79,10 @@ export default function CategoryForm(props: any) {
             fileName: file.name,
             url: imageUrl
         }
-        console.log(file)
         props.setCategory({ name, price, image: imageData })
         props.setActiveItem('capsule')
     }
-
+    // blobからFileを生成する関数
     const convertDataUrlToFile = async (dataUrl: string, fileName: string, type: "image/png" | "image/jpeg") => {
         const blob = await (await fetch(dataUrl)).blob()
         return new File([blob], fileName, { type })

@@ -12,6 +12,7 @@ type Props = {
 }
 
 export default function Stamp(props: Props) {
+    // supagaseのstorageから画像を取得する関数
     const getImage = (image: string) => {
         const { data } = supabase.storage.from('capsule').getPublicUrl(image)
         return data.publicUrl

@@ -1,8 +1,17 @@
-import { useEffect } from 'react';
-import Image from 'next/image';
-import { supabase } from '@/supabase/client';
+// カプセルのプルダウンのコンポーネント
+import { useEffect } from 'react'
+import Image from 'next/image'
+import { supabase } from '@/supabase/client'
 
-export default function CapsuleDown(props: any) {
+type Props = {
+    content: any
+    index: number
+    value: number
+    mol: number
+    deno: number
+}
+
+export default function CapsuleDown(props: Props) {
     const getImage = (image: string) => {
         const { data } = supabase.storage.from('capsule').getPublicUrl(image)
         return data.publicUrl
@@ -10,13 +19,14 @@ export default function CapsuleDown(props: any) {
     useEffect(() => {
         const dropdownButton: any = document.getElementById(`dropdown-button-${props.index}`);
         const dropdownMenu: any = document.getElementById(`dropdown-menu-${props.index}`);
-        let isOpen = false; // Set to true to open the dropdown by default
-        
+        // プルダウンの初期状態
+        let isOpen = false
+        // プルダウンの開閉を切り替える関数
         function toggleDropdown() {
             isOpen = !isOpen;
             dropdownMenu?.classList.toggle('hidden', !isOpen);
         }
-        
+        // プルダウンの開閉を切り替えるイベント
         dropdownButton?.addEventListener('click', () => {
             toggleDropdown();
         });

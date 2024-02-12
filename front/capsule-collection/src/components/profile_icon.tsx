@@ -15,12 +15,16 @@ type Props = {
 
 export default function ProfileIcon(props: Props) {
     const auth: any = supabase.auth
+    // 名前の編集のステート
     const [edit_name, setEdit_name] = useState<boolean>(false)
+    // アイコンの編集のステート
     const [edit_icon, setEdit_icon] = useState<boolean>(false)
+    // アイコンのファイルのステート
     const [file, setFile] = useState<any>({})
+    // エラーメッセージのステート
     const [error, setError] = useState<string>('')
+    // 名前のステート
     const [name, setName] = useState<string>('')
-
     // ユーザの名前を変更する関数
     const changeName = async (e: React.FormEvent) => {
         e.preventDefault()
@@ -39,12 +43,9 @@ export default function ProfileIcon(props: Props) {
                 username: name
             }),
         })
-        console.log(res)
-
         setEdit_name(false)
         setName(name)
     }
-
     // ユーザーのアイコンを変更する関数
     const changeIcon = async (e: React.FormEvent) => {
         e.preventDefault()
@@ -63,7 +64,7 @@ export default function ProfileIcon(props: Props) {
             }
         })
     }
-
+    // アイコンを選択した時の関数
     const selectIcon = (e: any) => {
         setError('')
         const maxSize = 10485760; // 1MB

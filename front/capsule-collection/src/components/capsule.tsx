@@ -9,13 +9,9 @@ type Props = {
 }
 
 export default function Capsule(props: Props) {
-
-    const selectCapsule = (e: React.FormEvent) => {
-        e.preventDefault()
-    }
     return (
         <div className="w-full h-full flex flex-col items-center justify-center">              
-            <Image src={props.capsule.image} width={90} height={90} objectFit="contain" alt="" className={`rounded-full border-2 ${props.selectCapsule ? 'border-white' : 'border-button'}`} onClick={(e: React.FormEvent) => selectCapsule(e)} />
+            <Image src={props.capsule.image} width={90} height={90} objectFit="contain" alt="" className={`rounded-full border-2 ${props.selectCapsule ? 'border-white' : 'border-button'}`} />
             <p className="text-sm text-white font-medium">{props.capsule.name}</p>
         </div>
     )

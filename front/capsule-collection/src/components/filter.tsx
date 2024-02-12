@@ -1,7 +1,9 @@
-import React, { useEffect } from 'react';
+// 検索のフィルターのコンポーネント
+import { useEffect } from 'react';
 import axios from 'axios';
 
 export default function Filter(props: any) {
+    // 何でフィルターするのかを判別する関数
     const onFilter = async(e: any) => {
         if(props.value === '価格'){
             const filterValue: number = parseInt(e.currentTarget.textContent)
@@ -26,37 +28,37 @@ export default function Filter(props: any) {
         
         }
     }
-        useEffect(() => {
-            const dropdownButton: any = document.getElementById(`dropdown-button-${props.value}`);
-            const dropdownMenu: any = document.getElementById(`dropdown-menu-${props.value}`);
-            const searchInput: any = document.getElementById(`search-input-${props.value}`);
-            console.log(dropdownButton, dropdownMenu, searchInput)
-            let isOpen = false; // Set to true to open the dropdown by default
-            
-            function toggleDropdown() {
-                isOpen = !isOpen;
-                dropdownMenu?.classList.toggle('hidden', !isOpen);
-            }
-            
-            dropdownButton?.addEventListener('click', () => {
-                toggleDropdown();
+    useEffect(() => {
+        const dropdownButton: any = document.getElementById(`dropdown-button-${props.value}`);
+        const dropdownMenu: any = document.getElementById(`dropdown-menu-${props.value}`);
+        const searchInput: any = document.getElementById(`search-input-${props.value}`);
+        console.log(dropdownButton, dropdownMenu, searchInput)
+        let isOpen = false; // Set to true to open the dropdown by default
+        
+        function toggleDropdown() {
+            isOpen = !isOpen;
+            dropdownMenu?.classList.toggle('hidden', !isOpen);
+        }
+        
+        dropdownButton?.addEventListener('click', () => {
+            toggleDropdown();
+        });
+        // Add event listener to filter items based on input
+        searchInput.addEventListener('input', () => {
+            const searchTerm = searchInput.value.toLowerCase();
+            const items = dropdownMenu.querySelectorAll('p');
+        
+            items.forEach((item: any) => {
+                const text = item.textContent?.toLowerCase();
+                console.log(text)
+                if (text.includes(searchTerm)) {
+                    item.style.display = 'block';
+                } else {
+                    item.style.display = 'none';
+                }
             });
-            // Add event listener to filter items based on input
-            searchInput.addEventListener('input', () => {
-                const searchTerm = searchInput.value.toLowerCase();
-                const items = dropdownMenu.querySelectorAll('p');
-            
-                items.forEach((item: any) => {
-                    const text = item.textContent?.toLowerCase();
-                    console.log(text)
-                    if (text.includes(searchTerm)) {
-                        item.style.display = 'block';
-                    } else {
-                        item.style.display = 'none';
-                    }
-                });
-            });
-        }, [props])
+        });
+    }, [props])
     return (
         <>
             <div className="flex items-start justify-center">

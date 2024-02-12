@@ -1,14 +1,16 @@
+// QRコードの表示を行うコンポーネント
 import { QRCodeCanvas } from "qrcode.react"
 import axios from "axios"
 import React, { FormEvent, useEffect, useState } from "react"
 
 export default function Qrcode(props: any) {
+    // 全カテゴリーのステート
     const [categories, setCategories] = useState<any>([])
+    // カプセルのステート
     const [capsules, setCapsules] = useState<any>([])
-
+    // カテゴリーの選択によってカプセルを表示する関数
     const addCategory = async (e: any) => {
         e.preventDefault()
-        console.log(e.target.value)
         const res = await axios.post('/api/category/select/', { id: e.target.value })
         setCapsules(res.data.category.capsule)
     }

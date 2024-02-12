@@ -8,11 +8,11 @@ type Props = {
 }
 
 export default function RecentCapsule(props: Props) {
+    // supabaseのstorageから画像を取得する関数
     const getImage = (image: string) => {
         const { data } = supabase.storage.from('capsule').getPublicUrl(image)
         return data.publicUrl
     }
-    console.log(props.capsule)
     return (
         <div className="w-full h-1/4">
             <p className="mb-3">最近のスタンプ</p>

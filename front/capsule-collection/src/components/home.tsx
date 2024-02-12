@@ -19,13 +19,11 @@ export default function Home(props: Props) {
         const getUser = async () => {
             const auth: any = supabase.auth
             const { data: { user } } = await auth.getUser()
-            console.log(user)
             setUid(user.id)
         }
         const getCapsule = async () => {
             const recentCapsuleRes = await axios.post('/api/userCapsule/select/recent', { id: uid })
             const capsuleRes = await axios.post('/api/userCapsule/select', { id: uid })
-            console.log(recentCapsuleRes.data.capsule)
             setRecentCapsule(recentCapsuleRes.data.capsule)
             setCapsule(capsuleRes.data.capsule)
         }

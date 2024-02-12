@@ -1,6 +1,6 @@
 // ユーザの持っているカプセルを表示するコンポーネント
 // コンポーネント関連
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import axios from 'axios'
 import CapsuleDown from './capsule_down'
 
@@ -10,8 +10,7 @@ type Props = {
 
 export default function Mystamp(props: Props) {
     const [categories, setCategories] = useState<any>([])
-    const [detail, setDetail] = useState<any>({})
-
+    // カプセルの数をカウントする関数
     const countCapsule = (id: string) => {
         let count = 0
         props.capsule.map((myCapsule: any) =>{
@@ -21,7 +20,7 @@ export default function Mystamp(props: Props) {
         })
         return count
     }
-
+    // カテゴリーのIDに一致するカプセルを表示する関数
     const showCapsule = (id: string) => {
         const capsule = props.capsule.filter((myCapsule: any) => myCapsule.capsule.category.id === id)
         return capsule
